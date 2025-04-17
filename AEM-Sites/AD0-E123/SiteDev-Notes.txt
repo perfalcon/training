@@ -1,0 +1,51 @@
+AEMaaCS utilizes a microservices architecture and key components like Dispatcher, Content Services, Query Service, and experience fragment service. 
+Cloud Manager facilitates managing and deploying AEM instances with CI/CD, while the provided APIs enable seamless integration and customization capabilities. 
+
+Scaling
+AEMaaCS features a dynamic architecture that can adapt to changing demands, accommodating a flexible number of AEM images based on specific requirements. This dynamic architecture enables scalability and optimized resource allocation, providing an agile and efficient environment for AEM deployments in the cloud
+
+Scalability based on Actual Traffic and Activity
+On-Demand Instances for Efficiency
+Agility with Modular Applications
+Default Author Cluster for Continuous Availability
+
+Horizontal:
+The number of nodes for a given service is increased or decreased automatically, still allowing for individual default configurations.
+Vertical: 
+Allocated memory and CPU capacity can be scaled up or down via configuration for a fixed number of nodes to address individual requirements as needed.
+
+Environments:
+Prod: Hosts the applications for business practitioners.
+Stage: Is always coupled to a single production environment in a 1:1 relationship. The stage environment is used for various performance and quality tests before changes to the application are pushed to the production environment
+Dev: Allows developers to implement AEM applications under the same runtime conditions as the stage and production environments.
+Rapid Dev: Allows for rapid development iterations for debugging new or existing code.
+
+  TENANT:
+        Positioned at the top of the hierarchy.
+        Every customer is assigned a tenant, which serves as their dedicated space within Cloud Manager.
+  PROGRAMS:
+        Each tenant can have one or more programs.
+        Programs typically correspond to the customer's licensed solutions or distinct projects.
+  ENVIRONMENTS:
+        Programs consist of multiple environments.
+        Environments are designated for specific purposes, such as production (live content), staging (testing), and development.
+        A program can have only one production environment, but it can have multiple non-production environments.
+  REPOSITORY:
+        Each program is associated with git repositories.
+        Git repositories are used to maintain application and front-end code for the various environments within a program.
+  TOOLS & WORKFLOWS:
+        Pipelines are employed to manage the deployment of code from the repositories to the respective environments.
+        Other tools and workflows are available for tasks like accessing logs, monitoring system performance, and managing the environments effectively.
+
+Programs : Two Types:
+    AEM Cloud Sites Service:
+        Provides access to features and functionalities specifically designed for managing and delivering web content.
+        The author tier includes all Sites functionality for all programs.
+    AEM Cloud Assets Service:
+        Offers features and capabilities tailored for managing digital assets and media content.
+        The author tier encompasses all Assets functionality for all programs.
+        By default, Assets programs do not have a publish tier or a preview tier, indicating that the publishing and   previewing of assets are not included out-of-the-box.
+
+Runtime Architecture: 
+The Runtime Architecture of AEMaaCS is dynamic and scalable, with a variable number of AEM images. 
+
