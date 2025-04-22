@@ -129,4 +129,26 @@ AEM Deployment modes:
   AEMaaCS -->Content is automatically deployed to the cloud service without the need for separate publish or dispatch environments.
   No Author-pubish, single author & Clusters.
   
+  Code development is similar in AEM On-premise & AEMaaCS
+
+  For quick validation of the code, code can be synched from a local env to a Rapid Developmental Environment
+
+Customer Releases
+
+Deploying Content Packages via Cloud Manager and Package Manager
+  Deployments via Cloud Manager
+    Cloud Manager will only install the mutable content.
+       Content Packages
+       Generated content-package <PACKAGE_ID> located in file <PATH> is of MIXED type
+
+ Immutable Content Packages:
+   All content and code in the immutable repository must be checked into git and deployed through Cloud Manager, ensuring consistent code across environments.
+   Application changes in the Blue-Green deployment pattern cannot rely on changes in the mutable repository except for specific cases
+  
+OSGI Configuration:
+OSGI configuration should be committed to source control rather than through the web console.
+
+Mutable Content:
+  It might be useful to prepare content changes in source control so it can be deployed by Cloud Manager whenever an environment is updated
+  
 
