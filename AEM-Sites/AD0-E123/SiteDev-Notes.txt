@@ -49,3 +49,84 @@ Programs : Two Types:
 Runtime Architecture: 
 The Runtime Architecture of AEMaaCS is dynamic and scalable, with a variable number of AEM images. 
 
+
+
+AEM Components:
+  OSGi manages services and components, 
+  JCR stores all content, and 
+  Sling provides a RESTful web framework.
+
+Components : Small, resuable and collaborative components are used
+Bundles : Components are composed in bundles
+Application: Bundles are built into aan application
+
+OSGI:
+  
+  A Modular Framework
+  Allows dynamic loading and updating
+  supports modularity and flexibility, allowing developers to create custom functionality and integrate it into the platform
+  Bundles are managed by the OSGi framework in the deployment environment.
+  Implemented by Felix
+
+  Components:
+    OSGi components are resuable units of code that provide specific functionality within the platform
+    Built on top of OSGi bundles and are registered with OSGi framework
+    managed by OSGi framework, handles lifecycle of components, including dynamic loading, uploading , and unloading them without affecting other components.
+  
+      Bundle --> Component 1
+  
+                 Component 2
+  
+  Services:
+    facilitate communication between components in a modular application.
+    defined by interfaces and implemented within osgi bundles.
+    can be registered, managed and dynamically loaded by osgi framework.
+  
+  Budle A -------( Register) --->>Service ---> get ---> Bundle B
+                                    |                    |
+                                    |      listen        |
+                                    |---------------------|
+  Benefits of OSGi:
+    Modular Architecture
+    Dynamic loading and updating
+    Version management
+    Service Oriented architecure
+
+JCR
+  Implemented by Apache Jack Rabbit
+  Used by AEM for Content Persistence, Storage, Search, access control and much more 
+  is a db looks like a file system.
+  unstructure and enables versioning and observation.
+  provies full-text search, indexing, access control and event monitoring.
+
+  Principles of JCR:
+    Content Repository,
+    Query Language : JCR-SQL2
+    Access control
+    Node types
+ JCR operates on different abstraction , including MicroKernels like TarMK & MongoMK.
+  TarMK stores data in TAR files, excelling in read performance.
+  MongoMK leverage MongoDB for scalable and flexible storage, ideal for write-intensive workloads.
+
+Sling:
+  An open-source RESTful web framework.
+  Built on top of OSGi framework and uses JCR as its data store.
+
+  Features of Apache Sling:
+    Resource-based URL mapping
+    Scripting
+    Templating
+    Caching
+    Authentication and authorization
+
+  Sling content rendering
+    render JCR content into HTML and other formats using templates.
+    provides a separation between presentation & data.
+
+
+
+AEM Deployment modes:
+  AEMaaCS -->Content is automatically deployed to the cloud service without the need for separate publish or dispatch environments.
+  No Author-pubish, single author & Clusters.
+  
+
