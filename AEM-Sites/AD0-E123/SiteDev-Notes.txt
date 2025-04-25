@@ -150,5 +150,112 @@ OSGI configuration should be committed to source control rather than through the
 
 Mutable Content:
   It might be useful to prepare content changes in source control so it can be deployed by Cloud Manager whenever an environment is updated
-  
 
+Two Strategies for deploying the content by Cloud Manager to Mutable Repository, Mutable Content Packages & Repoint 
+  Mutable Content Packages:
+    Content such as Folder path hierachies, Service Users & ACLs committed into maven archtype-based AEM Project
+    The mutable content is installed in 3 different times:
+      1)Ahead of the startup of the new version of application, index definitions(add, modify, remove)
+      2)During the startup of the new version of the application but ahead of the switchover
+          Service Users, Serivce User ACLs & node types
+      3)After the switchover to the new version of the application, all other content is definable via jackrabbit vault.
+        Editable Templates, Context Aware config ( anything under /conf), and Scripts
+        
+
+Note:
+Content packages are deployed to all environment types (dev, stage, prod). It is not possible to limit deployment to a specific environment. This limitation is in place to ensure the option of a test run of automated execution. Content that is specific to an environment requires manual installation via Package Manager.
+  
+Also, there is no mechanism to rollback the mutable content package changes after they’ve been applied. If customers detect a problem, they can choose to fix it in their next code release or as a last resort, restore the entire system to a point in time before the deployment.
+
+
+
+Repoinit ( Repo Init --> Repository Initialization)
+for the following : have hand-coding explicit content creation repoinit statements in OSGI factory configurations
+  Create/delete/disable service users
+  Create/delete groups
+  Create/delete users
+  Add ACLs, path (eg: root folder structure), CNDs (node type definitions)
+
+  Why RepoInit :
+    Resources created at the startup, where as mutable content package approach, resources created after startup.
+    It is a relatively safe instruction set as you explicitly control the action to be taken.
+    It performs fast and atomic operations.
+    It is possible to validate repoinit statements on a local dev env at runtime since they will be executed when the osgi configurations gets registered
+    Its statements are atomic and explicity and will skip if the state is already matching.
+
+  When CM deploys the application, it executes these statments independently from the installation of any content packages.
+
+
+    To create repoinit statements, follow the below procedure:
+    
+        Add OSGi configuration for factory PID org.apache.sling.jcr.repoinit.RepositoryInitializer in a configuration folder of the project. Use a descriptive name for the configuration like org.apache.sling.jcr.repoinit.RepositoryInitializer~initstructure.
+       
+        Add repoinit statements to the script property of the config. The syntax and options are documented in Sling documentation. Note that there should be explicit creation of a parent folder before their child folders. For example, an explicit creation of /content before /content/myfolder, before /content/myfolder/mysubfolder. For ACLs being set on low level structures, it is recommended to set those on a higher level and work with a rep:glob restriction. For example (allow jcr:read on /apps restriction(rep:glob,/msm/wcm/rolloutconfigs)).
+        
+        Validate on the local dev environment at runtime.
+
+ Package Manager “one offs” for Mutable Content Packages
+ Including Third Party Packages
+
+Rolling Deployments
+  This strategy enables to eliminate author cluster downtime under the right circumstances
+  Blue is old version and Green is new version
+  
+  the Blue version is active and a release candidate for Green is built and available.
+  If there are any new or updated index definitions, the corresponding indexes are processed. Note that the blue deployment will always use the old indexes, while the Green will always use the new indexes.
+  Green is starting up while Blue is still serving.
+  Blue is running and serving, while Green is being checked for readiness via health checks.
+  Green nodes are ready to accept traffic and replace Blue nodes, which are brought down.
+  Over time, Blue nodes are replaced by Green nodes until only Green remains, thus completing the deployment.
+  Any new or modified mutable content is deployed.
+
+
+
+
+Rolling vs B-G Deployment:
+  No, rolling deployment and blue-green deployment are not the same. Rolling deployment gradually replaces old application instances with new ones, while blue-green deployment uses two separate, identical environments (blue and green) and switches traffic between them after testing. 
+  Rolling Deployment:
+    Process: Slowly replaces existing application instances with new versions, one by one. 
+    Traffic: New instances start serving traffic as soon as they are up and running. 
+    Isolation: No environment isolation between old and new versions. 
+    Speed: Generally faster than blue-green deployments. 
+    Rollback: Can be more complex to rollback changes as it involves reverting individual instances. 
+ 
+  Blue-Green Deployment:
+    Process: Maintains two identical production environments (blue and green). 
+    Traffic: After testing, traffic is switched completely from one environment (e.g., blue) to the other (e.g., green). 
+    Isolation: Complete environment isolation between old and new versions. 
+    Speed: Generally slower than rolling deployments. 
+    Rollback: Simplifies rollback by switching traffic back to the previous environment (e.g., blue). 
+ 
+  Key Differences:
+    Environment Isolation:
+    Rolling deployment doesn't isolate environments, while blue-green deployments do. 
+    Traffic Switching:
+    Rolling deployment switches traffic incrementally, while blue-green deployment switches it all at once. 
+    Rollback:
+    Rolling deployment rollbacks can be complex, while blue-green rollbacks are simpler. 
+    Resource Usage:
+    Blue-green deployment requires more resources (two environments). 
+    Risk:
+    Blue-green deployment generally offers higher reliability and lower risk of deployment-related issues. 
+
+Indexes:
+  New or modified indexes will cause an additional indexing or re-indexing step before the new (Green) version can take on traffic.
+  At this time, AEMaaCS does not work with index management tools such as the ACS Commons Ensure Oak Index tool.
+
+Replication
+The publication mechanism is backward compatible with the AEM Replication Java APIs.
+
+   http://localhost:4502/etc/replication for configuration.
+
+Backward Compatible Code for Rolling Deployments
+  Be cautious of code changes that are not backward compatible with the old AEM version that is still operating.
+
+  Service Users and ACL Changes:
+  Index changes
+  Conservative Coding for Rollbacks
+
+
+  
+  
