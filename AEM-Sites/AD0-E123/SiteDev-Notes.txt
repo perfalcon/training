@@ -257,5 +257,1136 @@ Backward Compatible Code for Rolling Deployments
   Conservative Coding for Rollbacks
 
 
+ RDE : Rapid Development Environments
+    allow developers to quickly deploy and review changes, minimizing the amount of time needed to test features that are already proven to work in a local development environment.
+
+
+
+Adobe Experience Manager Sites Developer
+10% COMPLETE
+
+3 of 29 — Lesson 1 Quiz
+Lesson content
+Introduction to AEM Topology: Exploring Architecture and Deployment Configuration
+Lesson 4 of 29
+
+Adobe Experience Manager Sites Developer (AD0-E123) Exam objectives covered in this lesson include the following:
+
+    Section 1: Configurations
+        1.3 Explain how to create and manage OSGi configurations
+    Section 4: Environment Maintenance
+        4.3 Identify how to configure AEM across topologies
+
+In this lesson, you will learn about the architecture stack of AEM and its component, which includes the OSGI framework, JCR, and sling. And finally, we will cover AEM instances and deployment modes.
+
+2.1 Overview of AEM Architecture Stack
+
+Exam Objectives
+
+Section 4: Environment Maintenace
+       4.3 Identify how to configure AEM across topologies
+
+AEM is built on top of several open-source technologies, including Apache Sling, Apache Jackrabbit Oak, and Apache Felix. These technologies work together to provide a robust and flexible platform for digital experience management.
+
+Figure 2.1 shows the AEM architecture stack.
+The figure shows the AEM architecture stack in which Apache Felix as OSGi Java Container, Apache Jackrabbit Oak as JCR Repository / Storage Layer, Apache Sling as Web Application Framework, and AEM as Application Layer are shown.
+
+Figure 2.1: AEM Architecture Stack
+
+AEMaaCS utilizes a microservices architecture and key components like Dispatcher, Content Services, Query Service, and experience fragment service. Cloud Manager facilitates managing and deploying AEM instances with CI/CD, while the provided APIs enable seamless integration and customization capabilities. Let's explore the underlying architecture and important pieces of AEMaaCS, with Cloud Manager and its APIs in the video below.
+
+Scaling
+
+AEMaaCS features a dynamic architecture that can adapt to changing demands, accommodating a flexible number of AEM images based on specific requirements. This dynamic architecture enables scalability and optimized resource allocation, providing an agile and efficient environment for AEM deployments in the cloud. The dynamic architecture with a variable number of AEM images is shown in Figure 2.2.
+The figure shows the dynamic architecture of AEMaaCS.
+
+Figure 2.2: Dynamic Architecture
+
+AEMaaCS maximizes scalability, efficiency, and flexibility by leveraging this dynamic architecture. It empowers organizations to deliver exceptional digital experiences while effectively managing their resources and minimizing disruptions. This architecture provides the following features:
+
+    Scalability based on Actual Traffic and Activity
+        Scaling resources in response to actual traffic and activity levels
+        Ensuring optimal performance and resource utilization
+    On-Demand Instances for Efficiency
+        Activating individual instances as needed, minimizing resource waste
+        Achieving cost optimization through efficient resource allocation
+    Agility with Modular Applications
+        Utilizing modular applications for flexibility and adaptability
+        Enabling seamless updates and enhancements to the system
+    Default Author Cluster for Continuous Availability
+        Implementing an author cluster as the default configuration
+        Avoiding downtime during maintenance tasks, ensuring uninterrupted content authoring
+
+This architecture enables autoscaling for varying usage patterns shown in Figure 2.3.
+The figure shows the architecture for varying usage patterns.
+
+Figure 2.3: Architecture for Varying Usage Patterns
+
+All instances of AEMaaCS are created equal and uniform, sharing identical default sizing characteristics in terms of nodes, memory allocated, and computing capacity, ensuring consistency, and streamlined resource management.
+
+AEMaaCS relies on an orchestration engine to manage and optimize its operations and acts as a central control system. AEMaaCS is based on the use of an orchestration engine that:
+
+    Constantly monitors the state of the service.
+    Dynamically scales each service instance as per the actual needs, both scaling up or down as appropriate.
+    This is applicable to the number of nodes, the amount of memory, and the allocated CPU capacity on each node.
+    Allows AEMaaCS to accommodate your traffic patterns as they change.
+
+The scaling of per-tenant instances of the service refers to adjusting the resources allocated to each individual tenant based on their specific needs. It applies to the two axes:
+
+    Horizontal: The number of nodes for a given service is increased or decreased automatically, still allowing for individual default configurations.
+    Vertical: Allocated memory and CPU capacity can be scaled up or down via configuration for a fixed number of nodes to address individual requirements as needed.
+
+Environments
+
+AEMaaCS is made available as individual instances with each instance representing a complete AEM environment. There are four types of environments available:
+
+    Production environment: Hosts the applications for business practitioners.
+    Stage environment: Is always coupled to a single production environment in a 1:1 relationship. The stage environment is used for various performance and quality tests before changes to the application are pushed to the production environment.
+    Development environment: Allows developers to implement AEM applications under the same runtime conditions as the stage and production environments.
+    Rapid development environment: Allows for rapid development iterations for debugging new or existing code.
+
+Refer to Managing Environments(opens in a new tab) for more details.
+
+Programs
+
+Cloud Manager utilizes a hierarchical structure for organizing entities, although understanding the details may not be necessary for daily tasks. However, having an overview of this structure, as shown in Figure 2.4, can assist in program comprehension and setting up personal configurations within Cloud Manager.
+The figure shows Program and Program types with their entities that include TENANT, PROGRAMS with four boxes consisting of Program 1, Program 2, Program 3, and Program N, which is directed to ENVIRONMENTS with three boxes consisting Production, Stage, and Dev 1, REPOSITORY with Project and its branches, application codes and front-end code, TOOLS & WORKFLOWS with Access AEM, Configure & deploy Pipelines, Manage Git (clone, edit, push code), Add & Manage Environments, Download Logs, and Monitoring.
+
+Figure 2.4: Program and Program Types
+
+Understanding this hierarchy and the roles of each entity is essential for effectively organizing and leveraging the features and capabilities of Cloud Manager. It enables streamlined development workflows, efficient code deployment, and effective management of environments for successful project implementation. The following entities play a crucial role in organizing and managing the environment:
+
+    TENANT:
+        Positioned at the top of the hierarchy.
+        Every customer is assigned a tenant, which serves as their dedicated space within Cloud Manager.
+    PROGRAMS:
+        Each tenant can have one or more programs.
+        Programs typically correspond to the customer's licensed solutions or distinct projects.
+    ENVIRONMENTS:
+        Programs consist of multiple environments.
+        Environments are designated for specific purposes, such as production (live content), staging (testing), and development.
+        A program can have only one production environment, but it can have multiple non-production environments.
+    REPOSITORY:
+        Each program is associated with git repositories.
+        Git repositories are used to maintain application and front-end code for the various environments within a program.
+    TOOLS & WORKFLOWS:
+        Pipelines are employed to manage the deployment of code from the repositories to the respective environments.
+        Other tools and workflows are available for tasks like accessing logs, monitoring system performance, and managing the environments effectively.
+
+Any new AEM project is always bound to exactly one specific codebase, where you can store your project's configuration and custom code of your project. This information is stored in a code repository, accessible via the usual Git clients, and made available to you at the time new programs are created.
+
+Table 2.1 shows an AEM program is the container that includes:
+Program ElementColumnProgram Element	Number
+Cell 1Baseline image (Sites or Assets)	1
+Code repository (Git)	1
+Non-production environments (RDE, development, or demonstration)
+	0 to N
+Pipeline for each environment
+	0 or 1
+Stage and production environment set (1:1)
+	0 or 1
+
+Table 2.1: AEM Program Container
+
+There are two types of programs initially available for AEMaaCS:
+
+    AEM Cloud Sites Service:
+        Provides access to features and functionalities specifically designed for managing and delivering web content.
+        The author tier includes all Sites functionality for all programs.
+    AEM Cloud Assets Service:
+        Offers features and capabilities tailored for managing digital assets and media content.
+        The author tier encompasses all Assets functionality for all programs.
+        By default, Assets programs do not have a publish tier or a preview tier, indicating that the publishing and previewing of assets are not included out-of-the-box.
+
+These programs enable users to leverage the respective services' functionalities, such as content creation, editing, and management for websites (Sites Service) or managing and organizing digital assets (Assets Service). However, the Sites Service includes additional tiers for publishing and previewing, while the Assets Service does not have them by default.
+
+Runtime Architecture
+
+The Runtime Architecture of AEMaaCS is dynamic and scalable, with a variable number of AEM images. It uses the orchestration engine to monitor the service's state and dynamically scale instances based on actual needs, accommodating changes in traffic patterns. This architecture ensures efficient resource allocation and enables high availability and autoscaling capabilities. Refer to Figure 2.5 below to get a quick overview of the main components of this architecture.
+The figure shows Runtime Architecture where the grey box indicates Shared Services which includes CDN Service, Container Orchestration Service Replication Service, CI/CD Service, Identity Management Service, Content Repository Service, and Assets Compute Service, the long dashed grey box indicates Per Environment which includes, under Container Orchestration Service, Publish Tier AEM Sites, Preview AEM Sites, Author Tier AEM Sites/Assets and Maintenance, under Content Repository Service, Blobs and Structured Content, and the dashed box indicated Containers which includes two Dispatcher and two Publisher under the Publish Tier AEM Sites, one Dispatcher and Preview under Preview AEM Sites, three Author under Author Tier AEM Sites/Assets and two Job under Maintenance.
+
+Figure 2.5: Runtime Architecture
+
+AEM Sites as a Cloud Service architecture is limited to an authoring environment, with no separate dedicated publish environments. It has the following features:
+
+    Authoring Tier:
+        Consists of two or more nodes within a single author cluster.
+        Scales are automatically based on authoring activity.
+        Content authors use the AEM author tier for content creation and management.
+        Login to the author tier is managed by Adobe Identity Management Services (IMS).
+    Assets Integration:
+        Utilizes a dedicated Assets Compute Service for assets integration and processing.
+    Preview Tier:
+        Comprises a single preview node for content quality assurance before publishing.
+    Publish Tier:
+        Composed of two or more nodes within a single publish farm.
+        Nodes operate independently and include an AEM publisher and web server with the AEM Dispatcher module.
+        Scales automatically to handle site traffic demands.
+    End Users:
+        Site visitors can visit the website via the AEM Publish Service.
+    Content Repository Service:
+        All tiers (author, preview, publish) read and persist content in the Content Repository Service.
+        The author tier has read and write capabilities, allowing content authors to create and manage content.
+    Shared Blobs Storage:
+        Binary files are stored in shared blobs storage across all tiers.
+        This eliminates the need to move files between the author, preview, and publish tiers.
+    Content Activation and Replication:
+        Approved content from the author tier is activated and replicated to the publish tier's persistence layer.
+        The Replication Service manages this process, ensuring content is pushed to the appropriate nodes for seamless replication.
+    Continuous Integration/Continuous Delivery (CI/CD) and Cloud Manager:
+        Developers and administrators utilize Cloud Manager's CI/CD service for managing code and configuration deployments.
+        Cloud Manager also provides access to monitoring and troubleshooting features, aiding in the efficient management of AEMaaCS.
+    Load Balancer:
+        Access to the author and publish tiers is facilitated through a load balancer.
+        The load balancer distributes requests to the active nodes, ensuring scalability and high availability for users.
+    Continuous Delivery Network (CDN) Service:
+        The publish and preview tiers benefit from a CDN Service as the first entry point.
+        This service improves content delivery performance by caching and serving static assets from edge locations, enhancing the user experience.
+
+For demonstration instances of AEMaaCS, the architecture is simplified to a single author node. Therefore it does not present all the characteristics of standard development, stage, or production environment. This also means that there can be some downtime and there is no support for backup/restore operations.
+
+Deployment Architecture
+
+Cloud Manager manages all updates to the instances of the AEMaaCS. It is mandatory, being the only way to build, test, and deploy the customer application to both the author, the preview, and the publish tiers. These updates can be triggered by Adobe when a new version of the AEM Cloud Service is ready or by the customer when a new version of their application is ready.
+
+Technically, this is implemented due to the concept of a deployment pipeline coupled to each environment within a program. When a Cloud Manager pipeline is running, it creates a new version of the customer application, both for the author, the preview, and the publish tiers. This is achieved by combining the latest customer packages with the latest baseline Adobe image. When the new images are built and tested successfully, Cloud Manager fully automates the cutover to the latest version of the image by updating all service nodes using a rolling update pattern. This results in no downtime for either the author or publish service.
+
+Figure 2.6 shows the complete Deployment architecture process.
+The figure shows Customer Code Changes on the top which is directed to Customer Code CI/CD, which combined together with Adobe Release Orchestration is directed to Code Building/Testing which is directed to Baseline AEM Releases, and below connected with Image Building and both combine to form a Non-Production Environments. Under which, Stage Environments that consists of Stage Deployment, Security Testing, Regression Testing, and Performance Testing placed next to each other, which is next directed to Production Environment which consists of Production Deployment. From down to top Several Times a Day is directed to Adobe Code Changes, Adobe Code CI/CD, and Adobe Release Validation which is directed to Baseline AEM Releases.
+
+Figure 2.6: Deployment Architecture
+
+Content Distribution
+
+Adobe Experience Manager as a Cloud Service has modified the way publishing content works. With AEMaaCS, the replication framework from previous versions of AEM is no longer used to publish pages (move changes from the author instance to publish instances).
+
+AEMaaCS now uses the Sling Content Distribution capability to move the appropriate content. This uses a pipeline service run on Adobe I/O, which is outside the AEM runtime. The setup is automated, including automatic self-configuration when publish nodes are added, removed, or recycled during runtime. A single publish or unpublish request can include multiple resources but will return a single status applied to all. It will succeed for all resources in the AEM Publish Service or fail for all. This ensures that the resources within the AEM Publish Service will never be in an inconsistent state.
+
+Figure 2.7 shows a high-level Content Distribution Architecture diagram.
+The figure shows the Content Distribution Architecture which includes an Isolated Customer Environment that consists of Scalable, Shared Datastore for binary files which is directed to Cache/CDN/LB, and Scalable AEM Author Service which is directed to Adobe Pipeline Isolated, Scalable, Content Distribution Service which is directed to Scalable AEM Publish Service and Scalable AEM Publish Service which is directed to Cache/CDN/LB, Adobe Pipeline Isolated, Scalable, Content Distribution Service which id directed to Scalable AEM Publish Service.
+
+Figure 2.7: Content Distribution Diagram
+
+Key Evolutions
+
+The new architecture for AEMaaCS introduces some fundamental changes and innovations compared to the previous generations:
+
+    Direct Cloud Data Store: All files (blobs) are directly uploaded and served from a cloud data store, bypassing the JVM of AEM Author and Publish services. This improves scalability and enables faster uploading and downloading of images and videos.
+    Publishing Pipeline: Content publishing now follows a pipeline with a subscription pattern. Published content is pushed to queues in the pipeline, to which all nodes of the publish service subscribe. This allows for fast autoscaling of the publish tier without the author tier needing to be aware of the number of nodes.
+    Golden Master Concept: The introduction of a golden master node automates the lifecycle of publish nodes. The golden master is a specialized node that performs maintenance operations, such as compaction, on the content repository. Publish nodes are recycled daily and require no routine maintenance, eliminating downtime for the author instance.
+    Separation of Content and Code: The architecture separates application content from code and configuration. Code and configuration are immutable and included in the baseline image used to create author and publish service nodes. Changes to code and configuration can only be made globally by running a Cloud Manager pipeline, ensuring consistency across nodes.
+
+2.2 Components of AEM
+
+Exam Objectives
+
+Section 1: Configurations
+       1.3 Explain how to create and manage OSGi configurations
+
+AEMaaCS comprises three major components: OSGi framework, Java Content Repository, and Sling. These components work together to provide a modular, scalable, and secure solution for managing digital experiences on the cloud. OSGi manages services and components, JCR stores all content, and Sling provides a RESTful web framework.
+
+Overview of OSGI Framework
+
+OSGi (Open Services Gateway Initiative) is a dynamic modular architecture for Java applications that is the basis for Adobe Experience Manager. It is a core technology used for managing and deploying the various software components that make up the AEM platform. OSGi is a modular framework for building Java applications, which provides a dynamic and flexible environment for managing components and services.
+
+The key reason OSGi technology is so successful is that it provides a very mature component system that actually works in a surprising number of environments. The OSGi system is actually used to build highly complex applications like Eclipse ID and application servers like GlassFish, IBM WebSphere, and JBoss. It is also used to create application frameworks, industrial automation, etc. Developers can leverage OSGi to create custom components and services, enhancing flexibility and customization while maintaining stability in the AEMaaCS environment.
+
+Figure 2.8 shows the working of the OSGi framework.
+The figure shows the OSGi framework, which consists of Components as Small, reusable, and collaborative components are used which is directed to Bundles as Components are composed in Bundles, which is directed to Application as Bundles are built into an application.
+
+Figure 2.8: OSGi Framework
+
+The OSGi framework was created to address issues such as tight coupling and dependency management in large-scale Java applications. It solves the problem of "JAR Hell" by introducing bundles, which encapsulate code and dependencies and allows for dynamic loading and updating. OSGi promotes modularity and independent component development and ensures the correct resolution of dependencies, enhancing flexibility and stability in applications like AEM.
+
+Bundles
+An OSGi bundle is a self-contained unit of code that provides specific functionality. It contains Java classes and resources and can be deployed independently. Bundles have a manifest file that defines dependencies and metadata. They can be dynamically loaded, updated, and unloaded without affecting other bundles, enabling efficient resource management and fast deployment. The OSGi framework supports modularity and flexibility, allowing developers to create custom functionality and integrate it into the platform. Bundles are managed by the OSGi framework in the deployment environment.
+
+Figure 2.9 shows the bundles techstack.
+The figure shows Bundles, with Native Operating System at the bottom above which Java VM is shown, then comes the Security which consists of Execution Environment, Modules, Life Cycle, and Services.
+
+Figure 2.9: Bundles Techstack
+
+Components
+OSGi components are reusable units of code that provide specific functionality within the platform, such as handling HTTP requests or executing workflows. Components are built on top of OSGi bundles and are registered with the OSGi framework. They can be thought of as modular building blocks that can be combined to create custom functionality within the platform. They are managed by the OSGi framework, which handles the lifecycle of the components, including dynamically loading, updating, and unloading them without affecting other components. This allows for more efficient management of system resources and faster application deployment. These can be configured through a user-friendly interface, making it easier for content authors to use and customize the functionality provided by the components. Additionally, components can interact with each other through OSGi services, which provide a way for components to communicate without needing to know about the internal workings of each other.
+
+Refer to Figure 2.10 for the structure of OSGi components.
+The figure shows the structure of OSGi components, where bundle contains is directed to two boxes named as Component which consists of two service boxes each, and the leftmost component is directed to the component exposes.
+
+Figure 2.10: OSGi Components
+
+Services
+OSGi services facilitate communication between components in a modular application. Services are defined by interfaces and implemented within OSGi bundles. Components interact with services through these interfaces, enabling standardized communication. Services can be registered, managed, and dynamically loaded by the OSGi framework. This flexibility allows for easy creation, update, and discovery of services, enhancing customization and interoperability within the platform.
+
+Refer to Figure 2.11 for a better understanding of OSGi services.
+The figure shows OSGi services which include Bundle A directed to Service through register which is directed to Bundle B using get and listen.
+
+Figure 2.11: OSGi Services
+
+The following are the benefits of using OSGi:
+
+    Modular architecture: OSGi allows for a modular architecture, where each component or service is packaged as an OSGi bundle. This allows for more efficient management of system resources and faster application deployment.
+    Dynamic loading and updating: OSGi allows for dynamic loading, updating, and unloading of bundles, which enables changes to be made to the platform without the need for a full system restart. This reduces downtime and increases the availability of the platform.
+    Version management: OSGi provides version management for bundles, which enables different versions of the same bundle to be deployed simultaneously. This allows for more flexibility and control over the platform.
+    Service-oriented architecture: OSGi is a service-oriented architecture where components and services can communicate with each other through a well-defined set of interfaces. This allows for greater modularity and flexibility in the platform.
+
+Overview of Java Content Repository
+
+The Java Content Repository (JCR) is used by Adobe Experience Manager. The JCR is the base level of the AEM technology stack and is responsible for underlying content persistence, storage, search, access control, and much more. JCR is a database that looks like a file system. It is unstructured and enables versioning and observation. It provides services such as full-text search, indexing, access control, and event monitoring.
+The figure shows JCR evolution, with JCR Java Content Repository at the top which is divided into 2002-2005 JSR-170 under Java/JavaScript APIs, 2005-2009 JSR-283 between Stable API, and Defined by Expert Group, 2010 continued JSR-333 under Open Standards.
+
+Figure 2.12: JCR Evolution
+
+JCR is a key technology used in AEMaaCS to manage and store digital assets, content, and metadata. The following are the principles of JCR in AEM:
+
+    Content Repository: It provides a hierarchical content repository that stores and manages the content and digital assets. The content is stored as a tree-like structure of nodes that can be queried, searched, and retrieved.
+
+The figure shows Standardized API of the Content Repository including RDBMS Features at the left, Other Good Stuff in the middle, and File System Features at the right. RDBMS Features contain Transactions, Query, Structure, Integrity. Other Good Stuff contains Multi-Value Properties, Unstructured, Ordering, Full Text, Versioning, and Observation. File System Features contain Binaries, Hierarchy, Locking, and Access Control.
+
+Figure 2.13: Content Repository
+
+    Query Language: It provides a query language called JCR-SQL2, which allows users to query the content repository using SQL-like syntax. This query language supports complex queries that can search for specific content based on criteria such as metadata or content properties.
+    Versioning: It provides versioning functionality, which allows content to be versioned and tracked over time. This feature enables users to maintain a history of changes made to content and revert to previous versions if necessary.
+    Access Control: It provides access control functionality, which allows administrators to define access rights to content based on user roles and permissions. This feature ensures that only authorized users have access to sensitive content and can perform specific actions on that content.
+    Node Types: It defines a set of node types that describe the structure and behavior of nodes in the content repository. These node types can be extended or customized to meet specific requirements.  
+
+JCR operates on different abstraction layers, including MicroKernels like TarMK and MongoMK. TarMK stores data in TAR files, excelling in read performance, while MongoMK leverages MongoDB for scalable and flexible storage, ideal for write-intensive workloads. Both provide the necessary functionality for JCR data storage, with differences in underlying technology and performance. These MicroKernels abstract storage and retrieval details, enabling developers to use standard JCR APIs without worrying about specific storage technology.
+
+Overview of Sling
+
+Sling is an open-source RESTful web framework that is part of Adobe Experience Manager’s underlying technology stack. It is built on top of the OSGi framework and uses JCR as its data store.
+
+Apache Sling provides a set of features and tools that make it easier to build web applications, such as:
+
+    Resource-based URL mapping: It maps URLs to resources in the content repository based on a predefined hierarchy. This allows developers to create RESTful web applications without needing to write explicit servlet mappings.
+    Scripting: It supports scripting languages like JavaScript and Groovy, allowing developers to write application logic in these languages.
+    Templating: It supports templating engines like Apache Freemarker and Apache Velocity, which allows developers to create dynamic templates for their web applications.
+    Caching: It provides caching functionality, which can significantly improve the performance of web applications by reducing the number of requests made to the content repository.
+    Authentication and authorization: It provides built-in support for authentication and authorization, allowing developers to secure their web applications without needing to write custom code.
+
+Sling Content Rendering
+Sling Content Rendering in AEMaaCS enables developers to render JCR content into HTML and other formats using templates. It provides a separation between presentation and data, allowing optimized templates for rendering. This feature offers flexibility and customization options for creating tailored user experiences.
+
+2.3 AEM Deployment Modes
+
+Exam Objectives
+
+Section 1: Configurations
+               1.3 Explain how to create and manage OSGi configurations
+
+The traditional deployment modes like Author-Publish, Single Author, and Cluster are no longer applicable. Instead, deploying to AEMaaCS involves a simplified approach. Developers focus on creating and authoring content in the author environment, and the content is automatically deployed to the cloud service without the need for separate publish or dispatch environments. This cloud-native deployment model reduces infrastructure management overhead and allows for seamless scalability and performance optimization in the cloud environment provided by Adobe.
+
+
+The fundamentals of code development are similar in AEMaaCS compared to the AEM On-Premise and Managed Services solutions. Developers write code and test it locally, which is then pushed to a remote AEMaaCS environment. Cloud Manager, which was an optional content delivery tool for Managed Services, is required. This is now the sole mechanism for deploying code to dev, stage, and production environment. For quick feature validation and debugging prior to deploying those aforementioned environments, code can be synced from a local environment to a Rapid Development Environment.
+
+The update of the AEM version is always a separate deployment event from pushing custom code. Viewed in another way, custom code releases should be tested against the AEM version that is on production since that is what will be deployed on the top. AEM version (opens in a new tab)updates that happen after that will be frequent and are automatically applied. They are intended to be backward compatible with the customer code already deployed.
+
+Customer Releases
+
+Coding against the right AEM version
+For previous AEM solutions, the most current AEM version changed infrequently (roughly annually with quarterly service packs) and customers would update the production instances to the latest quickstart on their own time, referencing the API Jar. However, AEMaaCS applications are automatically updated to the latest version of AEM more often, so custom code for internal releases should be built against the latest AEM version.
+
+Like for existing non-cloud AEM versions, a local, offline development based on a specific quickstart will be supported and is expected to be the tool of choice for debugging in the majority of cases.
+
+Note
+
+There are subtle operational differences between how the application behaves on a local machine versus the Adobe Cloud. These architectural differences must be respected during local development and could lead to a different behavior when deploying on the cloud infrastructure. Because of these differences, it is important to perform exhaustive tests on dev and stage environments before rolling out new custom code in production.
+
+
+In order to develop custom code for an internal release, the relevant version of the AEMaaCS SDK(opens in a new tab) should be downloaded and installed.
+
+For additional information about using the AEMaaCS Dispatcher Tool, see this page(opens in a new tab).
+
+Deploying Content Packages via Cloud Manager and Package Manager
+
+Deploying Content Packages via Cloud Manager and Package Manager involves using these tools to efficiently distribute and install bundles of content, such as applications, configurations, or updates, across cloud environments, simplifying the deployment process and ensuring consistent content delivery.
+
+    Deployments via Cloud Manager: Customers deploy custom code to cloud environments through Cloud Manager. It should be noted that Cloud Manager transforms locally assembled content packages into an artifact conforming to the Sling Feature Model, which is how an AEMaaCS application is described when running in a cloud environment. As a result, when looking at the packages in Package Manager on Cloud environments, the name will include “cp2fm” and the transformed packages have all metadata removed. They cannot be interacted with, meaning they cannot be downloaded, replicated, or opened.
+
+    Content packages written for AEMaaCS application must have a clean separation between immutable and mutable content and Cloud Manager will only install the mutable content, also outputting a message like:
+
+Generated content-package <PACKAGE_ID> located in file <PATH> is of MIXED type
+
+    Immutable Content Packages: All content and code in the immutable repository must be checked into git and deployed through Cloud Manager, ensuring consistent code across environments. OSGI configuration should be managed through source control rather than runtime. Application changes in the Blue-Green deployment pattern cannot rely on changes in the mutable repository except for specific cases. Repository restructuring is important to move content from the appropriate location.
+
+OSGI Configuration
+
+As mentioned above, OSGI configuration should be committed to source control rather than through the web console. Techniques to do so include:
+
+Making the necessary changes on the developer’s local AEM environment with the AEM web console’s configuration manager and then exporting the results to the AEM project on the local file system, creating the OSGI configuration manually in the AEM project on the local file system, referencing the AEM console’s configuration manager for the property names.
+
+Read more about OSGI configuration at Configuring OSGi for AEMaaCS.(opens in a new tab)
+
+Mutable Content
+
+In some cases, it might be useful to prepare content changes in source control so it can be deployed by Cloud Manager whenever an environment is updated. For example, it might be reasonable to seed certain root folder structures or line up changes in editable templates to enable policies in those components that were updated by the application deployment.
+
+There are two strategies to describe the content that will be deployed by Cloud Manager to the mutable repository, mutable content packages and repoint statements.
+
+Mutable Content Packages: Content such as folder path hierarchies, service users, and access controls (ACLs) are typically committed into a maven archetype-based AEM project. Techniques include exporting from AEM or writing directly as XML. During the build and deployment process, Cloud Manager packages the resulting mutable content package. The mutable content is installed at three different times during the deployment phase in the pipeline:
+
+    Ahead of the startup of the new version of the application, index definitions (add, modify, remove)
+    During the startup of the new version of the application but ahead of the switchover:
+        Service Users (add)
+        Service User ACLs (add)
+        node types (add)
+    After the switchover to the new version of the application, all other content is definable via jackrabbit vault. For example, Folders (add, modify, remove):
+        Editable templates (add, modify, remove)
+        Context Aware configuration (anything under /conf) (add, modify, remove)
+        Scripts (packages can trigger Install hooks at various stages of the installation process of package installation. See the Jackrabbit FileVault documentation about install hooks. Note that AEMaaCS currently uses FileVault version 3.4.0, which limits install hooks to admin users, system users, and members of the administrator's group.)
+
+It is possible to limit mutable content installation to the author or publish by embedding packages in an install.author or install.publish folder under /apps. Restructuring to reflect this separation was done in AEM 6.5 and details around recommended project restructuring can be found in the AEM 6.5 documentation.(opens in a new tab)
+
+Note
+
+Content packages are deployed to all environment types (dev, stage, prod). It is not possible to limit deployment to a specific environment. This limitation is in place to ensure the option of a test run of automated execution. Content that is specific to an environment requires manual installation via Package Manager.(opens in a new tab)
+
+Also, there is no mechanism to rollback the mutable content package changes after they’ve been applied. If customers detect a problem, they can choose to fix it in their next code release or as a last resort, restore the entire system to a point in time before the deployment.
+
+Any included third party packages must be validated as being AEMaaCS compatible otherwise, their inclusion will result in a deployment failure.
+
+Repoinit
+
+For the following cases, it is preferable to take the approach of hand-coding explicit content creation repoinit statements in OSGI factory configurations:
+
+    Create/delete/disable service users
+    Create/delete groups
+    Create/delete users
+    Add ACLs
+    Add path (for example, for root folder structures)
+    Add CNDs (node type definitions)
+
+Repoinit is preferable for these supported content modification use cases due to the following benefits:
+
+    It creates resources at startup, so logic can take the existence of those resources for granted. In the mutable content package approach, resources are created after startup, so application code relying on them may fail.
+    It is a relatively safe instruction set as you explicitly control the action to be taken. Also, the only supported operations are additive, with the exception of a few security related cases which allow the removal of Users, Service Users, and Groups. In contrast, the removal of something in the mutable content package approach is explicit; as you define a filter, anything present covered by a filter will be deleted. Still, caution should be taken since, with any content, there are scenarios where the presence of new content can alter the behavior of the application.
+    It performs fast and atomic operations. Mutable content packages, in contrast, can highly depend performance wise on the structures covered by a filter. Even if you update a single node, a snapshot of a large tree might be created.
+    It is possible to validate repoinit statements on a local dev environment at runtime since they will be executed when the OSGi configuration gets registered.
+    Its statements are atomic and explicit and will skip if the state is already matching.
+
+When Cloud Manager deploys the application, it executes these statements independently from the installation of any content packages.
+
+To create repoinit statements, follow the below procedure:
+
+    Add OSGi configuration for factory PID org.apache.sling.jcr.repoinit.RepositoryInitializer in a configuration folder of the project. Use a descriptive name for the configuration like org.apache.sling.jcr.repoinit.RepositoryInitializer~initstructure.
+    Add repoinit statements to the script property of the config. The syntax and options are documented in Sling documentation. Note that there should be explicit creation of a parent folder before their child folders. For example, an explicit creation of /content before /content/myfolder, before /content/myfolder/mysubfolder. For ACLs being set on low level structures, it is recommended to set those on a higher level and work with a rep:glob restriction. For example (allow jcr:read on /apps restriction(rep:glob,/msm/wcm/rolloutconfigs)).
+    Validate on the local dev environment at runtime.
+
+Package Manager “one offs” for Mutable Content Packages
+There are use cases where a content package should be installed as a “one off”. For example, importing specific content from production onto staging in order to debug a production issue. For these scenarios, Package Manager can be used in AEMaaCS environment.
+
+Since Package Manager is a runtime concept, it is not possible to install the content or code into the immutable repository, so these content packages should only consist of mutable content (mainly /content or /conf). If the content package includes content that is mixed (both mutable and immutable content), only the mutable content will be installed.
+
+Any content packages installed via Cloud Manager (both mutable and immutable) will appear in a frozen state in AEM Package Manager’s user interface. These packages cannot be reinstalled, rebuilt, or even downloaded and will be listed with a “cp2fm” suffix, indicating their installation was managed by Cloud Manager.
+
+Including Third Party Packages
+It is common for customers to include pre-built packages from third party sources such as software vendors like Adobe’s translation partners. The recommendation is to host these packages in a remote repository and reference them in the pom.xml. This is possible for public repositories and also for private repositories with password protection, as described in password protected Maven repositories.
+
+If storing the package in a remote repository is not possible, customers can place it in a local, file system based Maven repository, which is committed to SCM as part of the project, and referenced by whatever depends on it. The repository would be declared in the project pom as illustrated below:
+The figure shows POM.xml Repository declaration of the project repository.
+
+Figure 2.14: POM.xml Repository
+
+Any included third party packages must adhere to the AEMaaCS coding and packaging guidelines described in this article otherwise, its inclusion will result in a deployment failure.
+
+The following Maven POM.xml snippet shows how third party packages can be embedded in the project’s “Container” package, typically named ‘all,’ via the filevault-package-maven-plugin Maven plugin configuration.
+The figure shows POM.xml third party packages showing the third party packages embedded in the project’s Container package by Maven plugin configuration.
+
+Figure 2.15: POM.xml third party packages
+
+Rolling Deployments
+
+How Rolling Deployments Work
+Like AEM updates, customer releases are deployed using a rolling deployment strategy in order to eliminate author cluster downtime under the right circumstances. The general sequence of events is as described below, where Blue is the old version of the customer code and Green is the new version. Both Blue and Green are running the same version of the AEM code.
+
+    The Blue version is active and a release candidate for Green is built and available.
+    If there are any new or updated index definitions, the corresponding indexes are processed. Note that the blue deployment will always use the old indexes, while the Green will always use the new indexes.
+    Green is starting up while Blue is still serving.
+    Blue is running and serving, while Green is being checked for readiness via health checks.
+    Green nodes are ready to accept traffic and replace Blue nodes, which are brought down.
+    Over time, Blue nodes are replaced by Green nodes until only Green remains, thus completing the deployment.
+    Any new or modified mutable content is deployed.
+
+Indexes
+New or modified indexes will cause an additional indexing or re-indexing step before the new (Green) version can take on traffic. You can check the status of the indexing job on the Cloud Manager build page and will receive a notification when the new version is ready to take traffic.
+
+At this time, AEMaaCS does not work with index management tools such as the ACS Commons Ensure Oak Index tool.
+
+Details about index management in AEMaaCS can be found in this article(opens in a new tab).
+
+Replication
+The publication mechanism is backward compatible with the AEM Replication Java APIs.
+
+In order to develop and test with replication with the cloud ready AEM quickstart, the classic replication capabilities need to be used with an Author/Publish setup. In the case of the UI entry point on AEM Author has been removed for the cloud, users would go to http://localhost:4502/etc/replication for configuration.
+
+Refer to AEM Replication Java APIs(opens in a new tab) for detailed information.
+
+Backward Compatible Code for Rolling Deployments
+As detailed above, AEMaaCS’s rolling deployment strategy implies that both the old and new versions may be operating at the same time. Therefore, be cautious of code changes that are not backward compatible with the old AEM version that is still operating.
+
+In addition, the old release should be tested for compatibility with any new mutable content structures applied by the new release in the event of rollback since mutable content is not removed.
+
+    Service Users and ACL Changes: Changing service users or ACLs needed to access content or code could lead to errors in the older AEM versions resulting in access to that content or code with outdated service users. To address this behavior, a recommendation is to make changes spread across at least two releases, with the first release acting as a bridge before cleaning up in the subsequent release.
+    Index Changes: If changes to indexes are made, it is important that the Blue version continues to use its indexes until it is terminated, while the Green version uses its own modified set of indexes. The developer should follow the index management techniques described in this article.
+    Conservative Coding for Rollbacks: If a failure is reported or detected after the deployment, it is possible that a rollback to the Blue version will be required. It would be wise to ensure that the Blue code is compatible with any new structures created by the Green version since the new structures (any mutable content) will not be rolled back. If the old code is not compatible, fixes will need to be applied in subsequent customer releases.
+
+Rapid Development Environments
+
+Rapid Development Environments (RDE) allow developers to quickly deploy and review changes, minimizing the amount of time needed to test features that are already proven to work in a local development environment.
+
+Unlike regular dev environments, which deploy code via the Cloud Manager pipeline, developers use command line tools to sync code from a local development environment to the RDE. Once the changes have been successfully tested in an RDE, they should be deployed to a regular Cloud Development environment through the Cloud Manager pipeline, which will put the code through the appropriate quality gates.
+
+Refer to Rapid Development Environments(opens in a new tab) for more details.
+Lab 2-1: Creating an RDE for a program. 1Column
+In this lab, you will learn to create an RDE for a program. RDEs can be used for code, content, and Apache or Dispatcher configurations. Follow these steps to use Cloud Manager to create an RDE for your program:
+
+    1.Log in to Cloud Manager at my.cloudmanager.adobe.com and select the appropriate organization.
+    2.Click on the program to which you wish to add an RDE to show its details.
+    3.From the Program Overview page, click on Add Environment on the Environments card to add an environment. The Add Environment option is also available on the Environments tab.
+    4.In the Add environment dialog that appears:
+        Select Rapid Development under the Select environment type heading.
+        Provide a Name for the environment.
+        Provide an optional Description of the environment.
+        Select a Cloud Region.
+    5.Click Save to add the specified environment. The Overview screen now displays your new environment in the Environments card.
+    6.Upon creation, RDEs are set to the most recently available AEM version. An RDE reset, which can also be performed using Cloud Manager, will cycle the RDE and set it to the most recently available AEM version.
   
-  
+
+Run Modes:
+AEMaaCS is of opinionated about which run modes are available and how OSGI bundles and OSGI configuration can be mapped to them.
+
+  OSGI configuration run modes must reference RDE, dev, stage & prod for Environment 
+  author and publis for Service.
+  comination of <service>.<environment_type> is supported
+  should be particular order like : author.dev or publish.prod
+  OSGI tokens should be referenced directly from code rather than getRunModes method ( as it will no longer return the environment_type at runtime)
+
+  OSGI bundles run modes are limited to the service (author, publish)
+  Per-run mode OSGI bundles should be installed in the content package under either install.author or install.publish.
+
+Adobe Experience Manager Sites Developer
+10% COMPLETE
+
+3 of 29 — Lesson 1 Quiz
+Lesson content
+Introduction to AEM Topology: Exploring Architecture and Deployment Configuration
+Lesson 4 of 29
+
+Adobe Experience Manager Sites Developer (AD0-E123) Exam objectives covered in this lesson include the following:
+
+    Section 1: Configurations
+        1.3 Explain how to create and manage OSGi configurations
+    Section 4: Environment Maintenance
+        4.3 Identify how to configure AEM across topologies
+
+In this lesson, you will learn about the architecture stack of AEM and its component, which includes the OSGI framework, JCR, and sling. And finally, we will cover AEM instances and deployment modes.
+
+2.1 Overview of AEM Architecture Stack
+
+Exam Objectives
+
+Section 4: Environment Maintenace
+       4.3 Identify how to configure AEM across topologies
+
+AEM is built on top of several open-source technologies, including Apache Sling, Apache Jackrabbit Oak, and Apache Felix. These technologies work together to provide a robust and flexible platform for digital experience management.
+
+Figure 2.1 shows the AEM architecture stack.
+The figure shows the AEM architecture stack in which Apache Felix as OSGi Java Container, Apache Jackrabbit Oak as JCR Repository / Storage Layer, Apache Sling as Web Application Framework, and AEM as Application Layer are shown.
+
+Figure 2.1: AEM Architecture Stack
+
+AEMaaCS utilizes a microservices architecture and key components like Dispatcher, Content Services, Query Service, and experience fragment service. Cloud Manager facilitates managing and deploying AEM instances with CI/CD, while the provided APIs enable seamless integration and customization capabilities. Let's explore the underlying architecture and important pieces of AEMaaCS, with Cloud Manager and its APIs in the video below.
+
+Scaling
+
+AEMaaCS features a dynamic architecture that can adapt to changing demands, accommodating a flexible number of AEM images based on specific requirements. This dynamic architecture enables scalability and optimized resource allocation, providing an agile and efficient environment for AEM deployments in the cloud. The dynamic architecture with a variable number of AEM images is shown in Figure 2.2.
+The figure shows the dynamic architecture of AEMaaCS.
+
+Figure 2.2: Dynamic Architecture
+
+AEMaaCS maximizes scalability, efficiency, and flexibility by leveraging this dynamic architecture. It empowers organizations to deliver exceptional digital experiences while effectively managing their resources and minimizing disruptions. This architecture provides the following features:
+
+    Scalability based on Actual Traffic and Activity
+        Scaling resources in response to actual traffic and activity levels
+        Ensuring optimal performance and resource utilization
+    On-Demand Instances for Efficiency
+        Activating individual instances as needed, minimizing resource waste
+        Achieving cost optimization through efficient resource allocation
+    Agility with Modular Applications
+        Utilizing modular applications for flexibility and adaptability
+        Enabling seamless updates and enhancements to the system
+    Default Author Cluster for Continuous Availability
+        Implementing an author cluster as the default configuration
+        Avoiding downtime during maintenance tasks, ensuring uninterrupted content authoring
+
+This architecture enables autoscaling for varying usage patterns shown in Figure 2.3.
+The figure shows the architecture for varying usage patterns.
+
+Figure 2.3: Architecture for Varying Usage Patterns
+
+All instances of AEMaaCS are created equal and uniform, sharing identical default sizing characteristics in terms of nodes, memory allocated, and computing capacity, ensuring consistency, and streamlined resource management.
+
+AEMaaCS relies on an orchestration engine to manage and optimize its operations and acts as a central control system. AEMaaCS is based on the use of an orchestration engine that:
+
+    Constantly monitors the state of the service.
+    Dynamically scales each service instance as per the actual needs, both scaling up or down as appropriate.
+    This is applicable to the number of nodes, the amount of memory, and the allocated CPU capacity on each node.
+    Allows AEMaaCS to accommodate your traffic patterns as they change.
+
+The scaling of per-tenant instances of the service refers to adjusting the resources allocated to each individual tenant based on their specific needs. It applies to the two axes:
+
+    Horizontal: The number of nodes for a given service is increased or decreased automatically, still allowing for individual default configurations.
+    Vertical: Allocated memory and CPU capacity can be scaled up or down via configuration for a fixed number of nodes to address individual requirements as needed.
+
+Environments
+
+AEMaaCS is made available as individual instances with each instance representing a complete AEM environment. There are four types of environments available:
+
+    Production environment: Hosts the applications for business practitioners.
+    Stage environment: Is always coupled to a single production environment in a 1:1 relationship. The stage environment is used for various performance and quality tests before changes to the application are pushed to the production environment.
+    Development environment: Allows developers to implement AEM applications under the same runtime conditions as the stage and production environments.
+    Rapid development environment: Allows for rapid development iterations for debugging new or existing code.
+
+Refer to Managing Environments(opens in a new tab) for more details.
+
+Programs
+
+Cloud Manager utilizes a hierarchical structure for organizing entities, although understanding the details may not be necessary for daily tasks. However, having an overview of this structure, as shown in Figure 2.4, can assist in program comprehension and setting up personal configurations within Cloud Manager.
+The figure shows Program and Program types with their entities that include TENANT, PROGRAMS with four boxes consisting of Program 1, Program 2, Program 3, and Program N, which is directed to ENVIRONMENTS with three boxes consisting Production, Stage, and Dev 1, REPOSITORY with Project and its branches, application codes and front-end code, TOOLS & WORKFLOWS with Access AEM, Configure & deploy Pipelines, Manage Git (clone, edit, push code), Add & Manage Environments, Download Logs, and Monitoring.
+
+Figure 2.4: Program and Program Types
+
+Understanding this hierarchy and the roles of each entity is essential for effectively organizing and leveraging the features and capabilities of Cloud Manager. It enables streamlined development workflows, efficient code deployment, and effective management of environments for successful project implementation. The following entities play a crucial role in organizing and managing the environment:
+
+    TENANT:
+        Positioned at the top of the hierarchy.
+        Every customer is assigned a tenant, which serves as their dedicated space within Cloud Manager.
+    PROGRAMS:
+        Each tenant can have one or more programs.
+        Programs typically correspond to the customer's licensed solutions or distinct projects.
+    ENVIRONMENTS:
+        Programs consist of multiple environments.
+        Environments are designated for specific purposes, such as production (live content), staging (testing), and development.
+        A program can have only one production environment, but it can have multiple non-production environments.
+    REPOSITORY:
+        Each program is associated with git repositories.
+        Git repositories are used to maintain application and front-end code for the various environments within a program.
+    TOOLS & WORKFLOWS:
+        Pipelines are employed to manage the deployment of code from the repositories to the respective environments.
+        Other tools and workflows are available for tasks like accessing logs, monitoring system performance, and managing the environments effectively.
+
+Any new AEM project is always bound to exactly one specific codebase, where you can store your project's configuration and custom code of your project. This information is stored in a code repository, accessible via the usual Git clients, and made available to you at the time new programs are created.
+
+Table 2.1 shows an AEM program is the container that includes:
+Program ElementColumnProgram Element	Number
+Cell 1Baseline image (Sites or Assets)	1
+Code repository (Git)	1
+Non-production environments (RDE, development, or demonstration)
+	0 to N
+Pipeline for each environment
+	0 or 1
+Stage and production environment set (1:1)
+	0 or 1
+
+Table 2.1: AEM Program Container
+
+There are two types of programs initially available for AEMaaCS:
+
+    AEM Cloud Sites Service:
+        Provides access to features and functionalities specifically designed for managing and delivering web content.
+        The author tier includes all Sites functionality for all programs.
+    AEM Cloud Assets Service:
+        Offers features and capabilities tailored for managing digital assets and media content.
+        The author tier encompasses all Assets functionality for all programs.
+        By default, Assets programs do not have a publish tier or a preview tier, indicating that the publishing and previewing of assets are not included out-of-the-box.
+
+These programs enable users to leverage the respective services' functionalities, such as content creation, editing, and management for websites (Sites Service) or managing and organizing digital assets (Assets Service). However, the Sites Service includes additional tiers for publishing and previewing, while the Assets Service does not have them by default.
+
+Runtime Architecture
+
+The Runtime Architecture of AEMaaCS is dynamic and scalable, with a variable number of AEM images. It uses the orchestration engine to monitor the service's state and dynamically scale instances based on actual needs, accommodating changes in traffic patterns. This architecture ensures efficient resource allocation and enables high availability and autoscaling capabilities. Refer to Figure 2.5 below to get a quick overview of the main components of this architecture.
+The figure shows Runtime Architecture where the grey box indicates Shared Services which includes CDN Service, Container Orchestration Service Replication Service, CI/CD Service, Identity Management Service, Content Repository Service, and Assets Compute Service, the long dashed grey box indicates Per Environment which includes, under Container Orchestration Service, Publish Tier AEM Sites, Preview AEM Sites, Author Tier AEM Sites/Assets and Maintenance, under Content Repository Service, Blobs and Structured Content, and the dashed box indicated Containers which includes two Dispatcher and two Publisher under the Publish Tier AEM Sites, one Dispatcher and Preview under Preview AEM Sites, three Author under Author Tier AEM Sites/Assets and two Job under Maintenance.
+
+Figure 2.5: Runtime Architecture
+
+AEM Sites as a Cloud Service architecture is limited to an authoring environment, with no separate dedicated publish environments. It has the following features:
+
+    Authoring Tier:
+        Consists of two or more nodes within a single author cluster.
+        Scales are automatically based on authoring activity.
+        Content authors use the AEM author tier for content creation and management.
+        Login to the author tier is managed by Adobe Identity Management Services (IMS).
+    Assets Integration:
+        Utilizes a dedicated Assets Compute Service for assets integration and processing.
+    Preview Tier:
+        Comprises a single preview node for content quality assurance before publishing.
+    Publish Tier:
+        Composed of two or more nodes within a single publish farm.
+        Nodes operate independently and include an AEM publisher and web server with the AEM Dispatcher module.
+        Scales automatically to handle site traffic demands.
+    End Users:
+        Site visitors can visit the website via the AEM Publish Service.
+    Content Repository Service:
+        All tiers (author, preview, publish) read and persist content in the Content Repository Service.
+        The author tier has read and write capabilities, allowing content authors to create and manage content.
+    Shared Blobs Storage:
+        Binary files are stored in shared blobs storage across all tiers.
+        This eliminates the need to move files between the author, preview, and publish tiers.
+    Content Activation and Replication:
+        Approved content from the author tier is activated and replicated to the publish tier's persistence layer.
+        The Replication Service manages this process, ensuring content is pushed to the appropriate nodes for seamless replication.
+    Continuous Integration/Continuous Delivery (CI/CD) and Cloud Manager:
+        Developers and administrators utilize Cloud Manager's CI/CD service for managing code and configuration deployments.
+        Cloud Manager also provides access to monitoring and troubleshooting features, aiding in the efficient management of AEMaaCS.
+    Load Balancer:
+        Access to the author and publish tiers is facilitated through a load balancer.
+        The load balancer distributes requests to the active nodes, ensuring scalability and high availability for users.
+    Continuous Delivery Network (CDN) Service:
+        The publish and preview tiers benefit from a CDN Service as the first entry point.
+        This service improves content delivery performance by caching and serving static assets from edge locations, enhancing the user experience.
+
+For demonstration instances of AEMaaCS, the architecture is simplified to a single author node. Therefore it does not present all the characteristics of standard development, stage, or production environment. This also means that there can be some downtime and there is no support for backup/restore operations.
+
+Deployment Architecture
+
+Cloud Manager manages all updates to the instances of the AEMaaCS. It is mandatory, being the only way to build, test, and deploy the customer application to both the author, the preview, and the publish tiers. These updates can be triggered by Adobe when a new version of the AEM Cloud Service is ready or by the customer when a new version of their application is ready.
+
+Technically, this is implemented due to the concept of a deployment pipeline coupled to each environment within a program. When a Cloud Manager pipeline is running, it creates a new version of the customer application, both for the author, the preview, and the publish tiers. This is achieved by combining the latest customer packages with the latest baseline Adobe image. When the new images are built and tested successfully, Cloud Manager fully automates the cutover to the latest version of the image by updating all service nodes using a rolling update pattern. This results in no downtime for either the author or publish service.
+
+Figure 2.6 shows the complete Deployment architecture process.
+The figure shows Customer Code Changes on the top which is directed to Customer Code CI/CD, which combined together with Adobe Release Orchestration is directed to Code Building/Testing which is directed to Baseline AEM Releases, and below connected with Image Building and both combine to form a Non-Production Environments. Under which, Stage Environments that consists of Stage Deployment, Security Testing, Regression Testing, and Performance Testing placed next to each other, which is next directed to Production Environment which consists of Production Deployment. From down to top Several Times a Day is directed to Adobe Code Changes, Adobe Code CI/CD, and Adobe Release Validation which is directed to Baseline AEM Releases.
+
+Figure 2.6: Deployment Architecture
+
+Content Distribution
+
+Adobe Experience Manager as a Cloud Service has modified the way publishing content works. With AEMaaCS, the replication framework from previous versions of AEM is no longer used to publish pages (move changes from the author instance to publish instances).
+
+AEMaaCS now uses the Sling Content Distribution capability to move the appropriate content. This uses a pipeline service run on Adobe I/O, which is outside the AEM runtime. The setup is automated, including automatic self-configuration when publish nodes are added, removed, or recycled during runtime. A single publish or unpublish request can include multiple resources but will return a single status applied to all. It will succeed for all resources in the AEM Publish Service or fail for all. This ensures that the resources within the AEM Publish Service will never be in an inconsistent state.
+
+Figure 2.7 shows a high-level Content Distribution Architecture diagram.
+The figure shows the Content Distribution Architecture which includes an Isolated Customer Environment that consists of Scalable, Shared Datastore for binary files which is directed to Cache/CDN/LB, and Scalable AEM Author Service which is directed to Adobe Pipeline Isolated, Scalable, Content Distribution Service which is directed to Scalable AEM Publish Service and Scalable AEM Publish Service which is directed to Cache/CDN/LB, Adobe Pipeline Isolated, Scalable, Content Distribution Service which id directed to Scalable AEM Publish Service.
+
+Figure 2.7: Content Distribution Diagram
+
+Key Evolutions
+
+The new architecture for AEMaaCS introduces some fundamental changes and innovations compared to the previous generations:
+
+    Direct Cloud Data Store: All files (blobs) are directly uploaded and served from a cloud data store, bypassing the JVM of AEM Author and Publish services. This improves scalability and enables faster uploading and downloading of images and videos.
+    Publishing Pipeline: Content publishing now follows a pipeline with a subscription pattern. Published content is pushed to queues in the pipeline, to which all nodes of the publish service subscribe. This allows for fast autoscaling of the publish tier without the author tier needing to be aware of the number of nodes.
+    Golden Master Concept: The introduction of a golden master node automates the lifecycle of publish nodes. The golden master is a specialized node that performs maintenance operations, such as compaction, on the content repository. Publish nodes are recycled daily and require no routine maintenance, eliminating downtime for the author instance.
+    Separation of Content and Code: The architecture separates application content from code and configuration. Code and configuration are immutable and included in the baseline image used to create author and publish service nodes. Changes to code and configuration can only be made globally by running a Cloud Manager pipeline, ensuring consistency across nodes.
+
+2.2 Components of AEM
+
+Exam Objectives
+
+Section 1: Configurations
+       1.3 Explain how to create and manage OSGi configurations
+
+AEMaaCS comprises three major components: OSGi framework, Java Content Repository, and Sling. These components work together to provide a modular, scalable, and secure solution for managing digital experiences on the cloud. OSGi manages services and components, JCR stores all content, and Sling provides a RESTful web framework.
+
+Overview of OSGI Framework
+
+OSGi (Open Services Gateway Initiative) is a dynamic modular architecture for Java applications that is the basis for Adobe Experience Manager. It is a core technology used for managing and deploying the various software components that make up the AEM platform. OSGi is a modular framework for building Java applications, which provides a dynamic and flexible environment for managing components and services.
+
+The key reason OSGi technology is so successful is that it provides a very mature component system that actually works in a surprising number of environments. The OSGi system is actually used to build highly complex applications like Eclipse ID and application servers like GlassFish, IBM WebSphere, and JBoss. It is also used to create application frameworks, industrial automation, etc. Developers can leverage OSGi to create custom components and services, enhancing flexibility and customization while maintaining stability in the AEMaaCS environment.
+
+Figure 2.8 shows the working of the OSGi framework.
+The figure shows the OSGi framework, which consists of Components as Small, reusable, and collaborative components are used which is directed to Bundles as Components are composed in Bundles, which is directed to Application as Bundles are built into an application.
+
+Figure 2.8: OSGi Framework
+
+The OSGi framework was created to address issues such as tight coupling and dependency management in large-scale Java applications. It solves the problem of "JAR Hell" by introducing bundles, which encapsulate code and dependencies and allows for dynamic loading and updating. OSGi promotes modularity and independent component development and ensures the correct resolution of dependencies, enhancing flexibility and stability in applications like AEM.
+
+Bundles
+An OSGi bundle is a self-contained unit of code that provides specific functionality. It contains Java classes and resources and can be deployed independently. Bundles have a manifest file that defines dependencies and metadata. They can be dynamically loaded, updated, and unloaded without affecting other bundles, enabling efficient resource management and fast deployment. The OSGi framework supports modularity and flexibility, allowing developers to create custom functionality and integrate it into the platform. Bundles are managed by the OSGi framework in the deployment environment.
+
+Figure 2.9 shows the bundles techstack.
+The figure shows Bundles, with Native Operating System at the bottom above which Java VM is shown, then comes the Security which consists of Execution Environment, Modules, Life Cycle, and Services.
+
+Figure 2.9: Bundles Techstack
+
+Components
+OSGi components are reusable units of code that provide specific functionality within the platform, such as handling HTTP requests or executing workflows. Components are built on top of OSGi bundles and are registered with the OSGi framework. They can be thought of as modular building blocks that can be combined to create custom functionality within the platform. They are managed by the OSGi framework, which handles the lifecycle of the components, including dynamically loading, updating, and unloading them without affecting other components. This allows for more efficient management of system resources and faster application deployment. These can be configured through a user-friendly interface, making it easier for content authors to use and customize the functionality provided by the components. Additionally, components can interact with each other through OSGi services, which provide a way for components to communicate without needing to know about the internal workings of each other.
+
+Refer to Figure 2.10 for the structure of OSGi components.
+The figure shows the structure of OSGi components, where bundle contains is directed to two boxes named as Component which consists of two service boxes each, and the leftmost component is directed to the component exposes.
+
+Figure 2.10: OSGi Components
+
+Services
+OSGi services facilitate communication between components in a modular application. Services are defined by interfaces and implemented within OSGi bundles. Components interact with services through these interfaces, enabling standardized communication. Services can be registered, managed, and dynamically loaded by the OSGi framework. This flexibility allows for easy creation, update, and discovery of services, enhancing customization and interoperability within the platform.
+
+Refer to Figure 2.11 for a better understanding of OSGi services.
+The figure shows OSGi services which include Bundle A directed to Service through register which is directed to Bundle B using get and listen.
+
+Figure 2.11: OSGi Services
+
+The following are the benefits of using OSGi:
+
+    Modular architecture: OSGi allows for a modular architecture, where each component or service is packaged as an OSGi bundle. This allows for more efficient management of system resources and faster application deployment.
+    Dynamic loading and updating: OSGi allows for dynamic loading, updating, and unloading of bundles, which enables changes to be made to the platform without the need for a full system restart. This reduces downtime and increases the availability of the platform.
+    Version management: OSGi provides version management for bundles, which enables different versions of the same bundle to be deployed simultaneously. This allows for more flexibility and control over the platform.
+    Service-oriented architecture: OSGi is a service-oriented architecture where components and services can communicate with each other through a well-defined set of interfaces. This allows for greater modularity and flexibility in the platform.
+
+Overview of Java Content Repository
+
+The Java Content Repository (JCR) is used by Adobe Experience Manager. The JCR is the base level of the AEM technology stack and is responsible for underlying content persistence, storage, search, access control, and much more. JCR is a database that looks like a file system. It is unstructured and enables versioning and observation. It provides services such as full-text search, indexing, access control, and event monitoring.
+The figure shows JCR evolution, with JCR Java Content Repository at the top which is divided into 2002-2005 JSR-170 under Java/JavaScript APIs, 2005-2009 JSR-283 between Stable API, and Defined by Expert Group, 2010 continued JSR-333 under Open Standards.
+
+Figure 2.12: JCR Evolution
+
+JCR is a key technology used in AEMaaCS to manage and store digital assets, content, and metadata. The following are the principles of JCR in AEM:
+
+    Content Repository: It provides a hierarchical content repository that stores and manages the content and digital assets. The content is stored as a tree-like structure of nodes that can be queried, searched, and retrieved.
+
+The figure shows Standardized API of the Content Repository including RDBMS Features at the left, Other Good Stuff in the middle, and File System Features at the right. RDBMS Features contain Transactions, Query, Structure, Integrity. Other Good Stuff contains Multi-Value Properties, Unstructured, Ordering, Full Text, Versioning, and Observation. File System Features contain Binaries, Hierarchy, Locking, and Access Control.
+
+Figure 2.13: Content Repository
+
+    Query Language: It provides a query language called JCR-SQL2, which allows users to query the content repository using SQL-like syntax. This query language supports complex queries that can search for specific content based on criteria such as metadata or content properties.
+    Versioning: It provides versioning functionality, which allows content to be versioned and tracked over time. This feature enables users to maintain a history of changes made to content and revert to previous versions if necessary.
+    Access Control: It provides access control functionality, which allows administrators to define access rights to content based on user roles and permissions. This feature ensures that only authorized users have access to sensitive content and can perform specific actions on that content.
+    Node Types: It defines a set of node types that describe the structure and behavior of nodes in the content repository. These node types can be extended or customized to meet specific requirements.  
+
+JCR operates on different abstraction layers, including MicroKernels like TarMK and MongoMK. TarMK stores data in TAR files, excelling in read performance, while MongoMK leverages MongoDB for scalable and flexible storage, ideal for write-intensive workloads. Both provide the necessary functionality for JCR data storage, with differences in underlying technology and performance. These MicroKernels abstract storage and retrieval details, enabling developers to use standard JCR APIs without worrying about specific storage technology.
+
+Overview of Sling
+
+Sling is an open-source RESTful web framework that is part of Adobe Experience Manager’s underlying technology stack. It is built on top of the OSGi framework and uses JCR as its data store.
+
+Apache Sling provides a set of features and tools that make it easier to build web applications, such as:
+
+    Resource-based URL mapping: It maps URLs to resources in the content repository based on a predefined hierarchy. This allows developers to create RESTful web applications without needing to write explicit servlet mappings.
+    Scripting: It supports scripting languages like JavaScript and Groovy, allowing developers to write application logic in these languages.
+    Templating: It supports templating engines like Apache Freemarker and Apache Velocity, which allows developers to create dynamic templates for their web applications.
+    Caching: It provides caching functionality, which can significantly improve the performance of web applications by reducing the number of requests made to the content repository.
+    Authentication and authorization: It provides built-in support for authentication and authorization, allowing developers to secure their web applications without needing to write custom code.
+
+Sling Content Rendering
+Sling Content Rendering in AEMaaCS enables developers to render JCR content into HTML and other formats using templates. It provides a separation between presentation and data, allowing optimized templates for rendering. This feature offers flexibility and customization options for creating tailored user experiences.
+
+2.3 AEM Deployment Modes
+
+Exam Objectives
+
+Section 1: Configurations
+               1.3 Explain how to create and manage OSGi configurations
+
+The traditional deployment modes like Author-Publish, Single Author, and Cluster are no longer applicable. Instead, deploying to AEMaaCS involves a simplified approach. Developers focus on creating and authoring content in the author environment, and the content is automatically deployed to the cloud service without the need for separate publish or dispatch environments. This cloud-native deployment model reduces infrastructure management overhead and allows for seamless scalability and performance optimization in the cloud environment provided by Adobe.
+
+
+The fundamentals of code development are similar in AEMaaCS compared to the AEM On-Premise and Managed Services solutions. Developers write code and test it locally, which is then pushed to a remote AEMaaCS environment. Cloud Manager, which was an optional content delivery tool for Managed Services, is required. This is now the sole mechanism for deploying code to dev, stage, and production environment. For quick feature validation and debugging prior to deploying those aforementioned environments, code can be synced from a local environment to a Rapid Development Environment.
+
+The update of the AEM version is always a separate deployment event from pushing custom code. Viewed in another way, custom code releases should be tested against the AEM version that is on production since that is what will be deployed on the top. AEM version (opens in a new tab)updates that happen after that will be frequent and are automatically applied. They are intended to be backward compatible with the customer code already deployed.
+
+Customer Releases
+
+Coding against the right AEM version
+For previous AEM solutions, the most current AEM version changed infrequently (roughly annually with quarterly service packs) and customers would update the production instances to the latest quickstart on their own time, referencing the API Jar. However, AEMaaCS applications are automatically updated to the latest version of AEM more often, so custom code for internal releases should be built against the latest AEM version.
+
+Like for existing non-cloud AEM versions, a local, offline development based on a specific quickstart will be supported and is expected to be the tool of choice for debugging in the majority of cases.
+
+Note
+
+There are subtle operational differences between how the application behaves on a local machine versus the Adobe Cloud. These architectural differences must be respected during local development and could lead to a different behavior when deploying on the cloud infrastructure. Because of these differences, it is important to perform exhaustive tests on dev and stage environments before rolling out new custom code in production.
+
+
+In order to develop custom code for an internal release, the relevant version of the AEMaaCS SDK(opens in a new tab) should be downloaded and installed.
+
+For additional information about using the AEMaaCS Dispatcher Tool, see this page(opens in a new tab).
+
+Deploying Content Packages via Cloud Manager and Package Manager
+
+Deploying Content Packages via Cloud Manager and Package Manager involves using these tools to efficiently distribute and install bundles of content, such as applications, configurations, or updates, across cloud environments, simplifying the deployment process and ensuring consistent content delivery.
+
+    Deployments via Cloud Manager: Customers deploy custom code to cloud environments through Cloud Manager. It should be noted that Cloud Manager transforms locally assembled content packages into an artifact conforming to the Sling Feature Model, which is how an AEMaaCS application is described when running in a cloud environment. As a result, when looking at the packages in Package Manager on Cloud environments, the name will include “cp2fm” and the transformed packages have all metadata removed. They cannot be interacted with, meaning they cannot be downloaded, replicated, or opened.
+
+    Content packages written for AEMaaCS application must have a clean separation between immutable and mutable content and Cloud Manager will only install the mutable content, also outputting a message like:
+
+Generated content-package <PACKAGE_ID> located in file <PATH> is of MIXED type
+
+    Immutable Content Packages: All content and code in the immutable repository must be checked into git and deployed through Cloud Manager, ensuring consistent code across environments. OSGI configuration should be managed through source control rather than runtime. Application changes in the Blue-Green deployment pattern cannot rely on changes in the mutable repository except for specific cases. Repository restructuring is important to move content from the appropriate location.
+
+OSGI Configuration
+
+As mentioned above, OSGI configuration should be committed to source control rather than through the web console. Techniques to do so include:
+
+Making the necessary changes on the developer’s local AEM environment with the AEM web console’s configuration manager and then exporting the results to the AEM project on the local file system, creating the OSGI configuration manually in the AEM project on the local file system, referencing the AEM console’s configuration manager for the property names.
+
+Read more about OSGI configuration at Configuring OSGi for AEMaaCS.(opens in a new tab)
+
+Mutable Content
+
+In some cases, it might be useful to prepare content changes in source control so it can be deployed by Cloud Manager whenever an environment is updated. For example, it might be reasonable to seed certain root folder structures or line up changes in editable templates to enable policies in those components that were updated by the application deployment.
+
+There are two strategies to describe the content that will be deployed by Cloud Manager to the mutable repository, mutable content packages and repoint statements.
+
+Mutable Content Packages: Content such as folder path hierarchies, service users, and access controls (ACLs) are typically committed into a maven archetype-based AEM project. Techniques include exporting from AEM or writing directly as XML. During the build and deployment process, Cloud Manager packages the resulting mutable content package. The mutable content is installed at three different times during the deployment phase in the pipeline:
+
+    Ahead of the startup of the new version of the application, index definitions (add, modify, remove)
+    During the startup of the new version of the application but ahead of the switchover:
+        Service Users (add)
+        Service User ACLs (add)
+        node types (add)
+    After the switchover to the new version of the application, all other content is definable via jackrabbit vault. For example, Folders (add, modify, remove):
+        Editable templates (add, modify, remove)
+        Context Aware configuration (anything under /conf) (add, modify, remove)
+        Scripts (packages can trigger Install hooks at various stages of the installation process of package installation. See the Jackrabbit FileVault documentation about install hooks. Note that AEMaaCS currently uses FileVault version 3.4.0, which limits install hooks to admin users, system users, and members of the administrator's group.)
+
+It is possible to limit mutable content installation to the author or publish by embedding packages in an install.author or install.publish folder under /apps. Restructuring to reflect this separation was done in AEM 6.5 and details around recommended project restructuring can be found in the AEM 6.5 documentation.(opens in a new tab)
+
+Note
+
+Content packages are deployed to all environment types (dev, stage, prod). It is not possible to limit deployment to a specific environment. This limitation is in place to ensure the option of a test run of automated execution. Content that is specific to an environment requires manual installation via Package Manager.(opens in a new tab)
+
+Also, there is no mechanism to rollback the mutable content package changes after they’ve been applied. If customers detect a problem, they can choose to fix it in their next code release or as a last resort, restore the entire system to a point in time before the deployment.
+
+Any included third party packages must be validated as being AEMaaCS compatible otherwise, their inclusion will result in a deployment failure.
+
+Repoinit
+
+For the following cases, it is preferable to take the approach of hand-coding explicit content creation repoinit statements in OSGI factory configurations:
+
+    Create/delete/disable service users
+    Create/delete groups
+    Create/delete users
+    Add ACLs
+    Add path (for example, for root folder structures)
+    Add CNDs (node type definitions)
+
+Repoinit is preferable for these supported content modification use cases due to the following benefits:
+
+    It creates resources at startup, so logic can take the existence of those resources for granted. In the mutable content package approach, resources are created after startup, so application code relying on them may fail.
+    It is a relatively safe instruction set as you explicitly control the action to be taken. Also, the only supported operations are additive, with the exception of a few security related cases which allow the removal of Users, Service Users, and Groups. In contrast, the removal of something in the mutable content package approach is explicit; as you define a filter, anything present covered by a filter will be deleted. Still, caution should be taken since, with any content, there are scenarios where the presence of new content can alter the behavior of the application.
+    It performs fast and atomic operations. Mutable content packages, in contrast, can highly depend performance wise on the structures covered by a filter. Even if you update a single node, a snapshot of a large tree might be created.
+    It is possible to validate repoinit statements on a local dev environment at runtime since they will be executed when the OSGi configuration gets registered.
+    Its statements are atomic and explicit and will skip if the state is already matching.
+
+When Cloud Manager deploys the application, it executes these statements independently from the installation of any content packages.
+
+To create repoinit statements, follow the below procedure:
+
+    Add OSGi configuration for factory PID org.apache.sling.jcr.repoinit.RepositoryInitializer in a configuration folder of the project. Use a descriptive name for the configuration like org.apache.sling.jcr.repoinit.RepositoryInitializer~initstructure.
+    Add repoinit statements to the script property of the config. The syntax and options are documented in Sling documentation. Note that there should be explicit creation of a parent folder before their child folders. For example, an explicit creation of /content before /content/myfolder, before /content/myfolder/mysubfolder. For ACLs being set on low level structures, it is recommended to set those on a higher level and work with a rep:glob restriction. For example (allow jcr:read on /apps restriction(rep:glob,/msm/wcm/rolloutconfigs)).
+    Validate on the local dev environment at runtime.
+
+Package Manager “one offs” for Mutable Content Packages
+There are use cases where a content package should be installed as a “one off”. For example, importing specific content from production onto staging in order to debug a production issue. For these scenarios, Package Manager can be used in AEMaaCS environment.
+
+Since Package Manager is a runtime concept, it is not possible to install the content or code into the immutable repository, so these content packages should only consist of mutable content (mainly /content or /conf). If the content package includes content that is mixed (both mutable and immutable content), only the mutable content will be installed.
+
+Any content packages installed via Cloud Manager (both mutable and immutable) will appear in a frozen state in AEM Package Manager’s user interface. These packages cannot be reinstalled, rebuilt, or even downloaded and will be listed with a “cp2fm” suffix, indicating their installation was managed by Cloud Manager.
+
+Including Third Party Packages
+It is common for customers to include pre-built packages from third party sources such as software vendors like Adobe’s translation partners. The recommendation is to host these packages in a remote repository and reference them in the pom.xml. This is possible for public repositories and also for private repositories with password protection, as described in password protected Maven repositories.
+
+If storing the package in a remote repository is not possible, customers can place it in a local, file system based Maven repository, which is committed to SCM as part of the project, and referenced by whatever depends on it. The repository would be declared in the project pom as illustrated below:
+The figure shows POM.xml Repository declaration of the project repository.
+
+Figure 2.14: POM.xml Repository
+
+Any included third party packages must adhere to the AEMaaCS coding and packaging guidelines described in this article otherwise, its inclusion will result in a deployment failure.
+
+The following Maven POM.xml snippet shows how third party packages can be embedded in the project’s “Container” package, typically named ‘all,’ via the filevault-package-maven-plugin Maven plugin configuration.
+The figure shows POM.xml third party packages showing the third party packages embedded in the project’s Container package by Maven plugin configuration.
+
+Figure 2.15: POM.xml third party packages
+
+Rolling Deployments
+
+How Rolling Deployments Work
+Like AEM updates, customer releases are deployed using a rolling deployment strategy in order to eliminate author cluster downtime under the right circumstances. The general sequence of events is as described below, where Blue is the old version of the customer code and Green is the new version. Both Blue and Green are running the same version of the AEM code.
+
+    The Blue version is active and a release candidate for Green is built and available.
+    If there are any new or updated index definitions, the corresponding indexes are processed. Note that the blue deployment will always use the old indexes, while the Green will always use the new indexes.
+    Green is starting up while Blue is still serving.
+    Blue is running and serving, while Green is being checked for readiness via health checks.
+    Green nodes are ready to accept traffic and replace Blue nodes, which are brought down.
+    Over time, Blue nodes are replaced by Green nodes until only Green remains, thus completing the deployment.
+    Any new or modified mutable content is deployed.
+
+Indexes
+New or modified indexes will cause an additional indexing or re-indexing step before the new (Green) version can take on traffic. You can check the status of the indexing job on the Cloud Manager build page and will receive a notification when the new version is ready to take traffic.
+
+At this time, AEMaaCS does not work with index management tools such as the ACS Commons Ensure Oak Index tool.
+
+Details about index management in AEMaaCS can be found in this article(opens in a new tab).
+
+Replication
+The publication mechanism is backward compatible with the AEM Replication Java APIs.
+
+In order to develop and test with replication with the cloud ready AEM quickstart, the classic replication capabilities need to be used with an Author/Publish setup. In the case of the UI entry point on AEM Author has been removed for the cloud, users would go to http://localhost:4502/etc/replication for configuration.
+
+Refer to AEM Replication Java APIs(opens in a new tab) for detailed information.
+
+Backward Compatible Code for Rolling Deployments
+As detailed above, AEMaaCS’s rolling deployment strategy implies that both the old and new versions may be operating at the same time. Therefore, be cautious of code changes that are not backward compatible with the old AEM version that is still operating.
+
+In addition, the old release should be tested for compatibility with any new mutable content structures applied by the new release in the event of rollback since mutable content is not removed.
+
+    Service Users and ACL Changes: Changing service users or ACLs needed to access content or code could lead to errors in the older AEM versions resulting in access to that content or code with outdated service users. To address this behavior, a recommendation is to make changes spread across at least two releases, with the first release acting as a bridge before cleaning up in the subsequent release.
+    Index Changes: If changes to indexes are made, it is important that the Blue version continues to use its indexes until it is terminated, while the Green version uses its own modified set of indexes. The developer should follow the index management techniques described in this article.
+    Conservative Coding for Rollbacks: If a failure is reported or detected after the deployment, it is possible that a rollback to the Blue version will be required. It would be wise to ensure that the Blue code is compatible with any new structures created by the Green version since the new structures (any mutable content) will not be rolled back. If the old code is not compatible, fixes will need to be applied in subsequent customer releases.
+
+Rapid Development Environments
+
+Rapid Development Environments (RDE) allow developers to quickly deploy and review changes, minimizing the amount of time needed to test features that are already proven to work in a local development environment.
+
+Unlike regular dev environments, which deploy code via the Cloud Manager pipeline, developers use command line tools to sync code from a local development environment to the RDE. Once the changes have been successfully tested in an RDE, they should be deployed to a regular Cloud Development environment through the Cloud Manager pipeline, which will put the code through the appropriate quality gates.
+
+Refer to Rapid Development Environments(opens in a new tab) for more details.
+Lab 2-1: Creating an RDE for a program. 1Column
+In this lab, you will learn to create an RDE for a program. RDEs can be used for code, content, and Apache or Dispatcher configurations. Follow these steps to use Cloud Manager to create an RDE for your program:
+
+    Log in to Cloud Manager at my.cloudmanager.adobe.com and select the appropriate organization.
+    Click on the program to which you wish to add an RDE to show its details.
+    From the Program Overview page, click on Add Environment on the Environments card to add an environment.
+    The Add Environment option is also available on the Environments tab.
+    In the Add environment dialog that appears:
+        Select Rapid Development under the Select environment type heading.
+        Provide a Name for the environment.
+        Provide an optional Description of the environment.
+        Select a Cloud Region.
+    Click Save to add the specified environment. The Overview screen now displays your new environment in the Environments card.
+    Upon creation, RDEs are set to the most recently available AEM version. An RDE reset, which can also be performed using Cloud Manager, will cycle the RDE and set it to the most recently available AEM version.
+
+Run Modes
+
+In existing AEM solutions, customers have the option of running instances with arbitrary run modes and applying OSGI configuration or installing OSGI bundles to those specific instances. Run modes that are defined typically include the service (author and publish) and the environment (rde, dev, stage, and prod).
+
+AEMaaCS, on the other hand, is more opinionated about which run modes are available and how OSGI bundles and OSGI configuration can be mapped to them:
+
+    OSGI configuration run modes must reference RDE, dev, stage, and prod for the environment or author and publish for the service. A combination of <service>.<environment_type> is being supported, whereas these have to be used in this particular order (for example, author.dev or publish.prod). The OSGI tokens should be referenced directly from the code rather than using the getRunModes method, which will no longer include the environment_type at runtime. For more information, see Configuring OSGi for AEMaaCS.
+    OSGI bundles run modes are limited to the service (author, publish). Per-run mode OSGI bundles should be installed in the content package under either install.author or install.publish.
+
+AEMaaCS does not allow using run modes to install content for specific environments or services. If a development environment needs to be seeded with data or HTML that is not in the staging or production environments, a package manager can be used.
+
+The following table shows supported runmode configurations:
+Configuration	            Services
+config	            Applies to all AEM services
+config.author	      Applies to all AEM Author service
+config.author.dev  	Applies to AEM Dev Author service
+config.author.prod  Applies to AEM Production Author service
+config.author.rde  	Applies to AEM RDE Author service
+config.author.stage  	Applies to AEM Staging Author service
+config.dev	        Applies to AEM Dev services
+config.prod        	Applies to AEM Production services
+config.publish  	  Applies to AEM Publish service
+config.publish.dev  Applies to AEM Dev Publish service
+config.publish.prod  Applies to AEM Production Publish service
+config.publish.rde	Applies to AEM RDE Publish service
+config.publish.stage  Applies to AEM Staging Publish service
+config.rde        	Applies to RDE services
+config.stage	      Applies to AEM Staging services
+Table 2.2: Runmode Configurations
+
+When developing locally, a runmode startup parameter, -r, is used to specify the runmode OSGI configuration.
+  $ java -jar aem-sdk-quickstart-xxxx.x.xxxx-xxxx.jar -r publish, dev
+
+Maintenance Tasks Configuration in Source Control
+Maintenance Task Configurations must be persisted in source control since the Tools > Operations screen will no longer be available in Cloud environments
+
+
+Summary:
+AEM is a content management system that provides a scalable and secure solution for managing digital experiences. 
+AEM Architecture Stack includes the presentation layer, the application layer, and the data layer. 
+AEMaaCS is built on top of the OSGi framework, which manages services and components, 
+the JCR, which stores all content, and 
+Sling, which provides a RESTful web framework. 
+AEM Instances can be deployed on-premise or on the cloud, and 
+deployment modes include standalone, author, publish, and dispatcher instances.
+
+Runtime Architecture:
+A dynamic and scalable architecture with a variable number of AEM images. 
+It ensures efficient resource allocation and enables high availability and autoscaling capabilities.
+
+CDN: 
+A service that improves content delivery performance by caching and serving static assets from edge locations, enhancing the user experience.
+
+Shared Blobs Storage:
+A storage that eliminates the need to move files between the author, preview, and publish tiers.
+
+Content Repository Service:
+A service where all tiers (author, preview, and publish) read and persist content.
+
+Deployment Architecure:
+An architecture that involves Cloud Manager managing updates and deployments, ensuring a seamless transition to new versions without downtime across author, preview, and publish tiers through the use of a deployment pipeline and automated rolling updates.
+
+Content Distribution:
+A capability to move content between author and publish instances, ensuring consistency and automation through a pipeline service on Adobe I/O.
+
+OSGi :
+A dynamic modular architecture for Java applications that is the basis for Adobe Experience Manager. 
+
+JCR:
+A base level of the AEM technology stack responsible for underlying content persistence, storage, search, access control, and much more.
+
+Cloud Manager
+A feature that utilizes a hierarchical structure for organizing entities.
+
+Asset Integration
+A feature that utilizes a dedicated Assets Compute Service for assets integration and processing.
+
+Sling:
+An open-source RESTful web framework that is part of Adobe Experience Manager’s underlying technology stack. 
+
+RDE:
+A service that allows developers to quickly deploy and review changes, minimizing the amount of time needed to test features that are already proven to work in a local development environment.
+
+
+
+Lession 2:
+Questions 1:
+What is the purpose of Sling Content Rendering in Adobe Experience Manager as a Cloud Service (AEMaaCS)?
+Ans:To render JCR content into HTML and other formats using templates
+Sling Content Rendering in AEMaaCS enables developers to render JCR content into HTML and other formats using templates. It provides a separation between presentation and data, allowing optimized templates for rendering. This feature offers flexibility and customization options for creating tailored user experiences.
+
+Q2:
+Which of the following does Cloud Manager offer for managing code and configuration deployments in the runtime architecture of AEMaaCS?
+Ans: CI/CD service
+Continuous integration/continuous delivery (CI/CD) service is the functionality Cloud Manager offers for managing code and configuration deployments in the runtime architecture of AEMaaCS.
+
+Q3:
+Which references must be included in OSGi configuration run modes for environment and service definitions?
+Ans: RDE, dev, stage, prod, author, and publish
+Open Service Gateway Initiative (OSGi) configuration run modes must reference RDE, dev, stage, and prod for the environment or author and publish for the service.
+
+Q4:
+Which of the following statements is true about JCR and its abstraction layers?
+Ans:TarMK and MongoMK are the two MicroKernels used by JCR for data storage.
+TarMK and MongoMK are the two MicroKernels used by Java Content Repository (JCR) for data storage. TarMK stores data in TAR files, excelling in read performance, while MongoMK leverages MongoDB for scalable and flexible storage, ideal for write-intensive workloads.
+
+Q5:
+How does Cloud Manager manage updates to instances of AEMaaCS, ensuring a seamless transition to the latest version without downtime?
+Ans: By implementing a deployment pipeline that combines customer packages with the latest Adobe image
+Cloud Manager manages updates to instances of AEMaaCS, ensuring a seamless transition to the latest version without downtime by implementing a deployment pipeline that combines customer packages with the latest Adobe image.
+
+Q6:
+In AEMaaCS, which environment is primarily used for performing performance and quality tests before deploying changes to the production environment?
+Ans: Stage
+In AEM as a Cloud Service (AEMaaCS), stage environment is primarily used for performing performance and quality tests before deploying changes to the production environment. It serves as a testing ground to validate changes before they are pushed to the production environment.
+
+Q7:What is an OSGi bundle?
+Ans:A self-contained unit of code that encapsulates specific functionality
+An Open Service Gateway Initiative (OSGi) bundle is a self-contained unit of code that encapsulates specific functionality. It contains Java classes and resources and can be deployed independently.
+
+Q8:Which of the following statements accurately describes the role of the orchestration engine in AEMaaCS?
+Ans:It dynamically scales service instances based on actual needs.
+The orchestration engine dynamically scales each of the service instances as per the actual needs, both scaling up or down as appropriate. This is applicable to the number of nodes, the amount of memory, and the allocated CPU capacity on each node.
+
+Q9:When is it preferable to hand-code explicit content creation repoinit statements in OSGi factory configurations?
+Ans: Creating or deleting service users
+It is preferable to hand-code explicit content creation repoinit statements in Open Service Gateway Initiative (OSGi) factory configurations while creating or deleting service users. In some cases, manually coding explicit content creation repoinit statements in OSGi factory configurations are preferred when dealing with dynamic content that requires specific configurations that cannot be easily achieved through automated processes. This allows developers to have more control over the content creation process and ensure that the specific requirements are met.
+
+Q10:Which open-source technologies is not fundamental to the architecture of AEM?
+Ans: Maven
+Apache Sling, Apache Jackrabbit Oak, and Apache Felix are open-source technologies that are fundamental to the architecture of AEM.
+
+
+
+
+
+
+
