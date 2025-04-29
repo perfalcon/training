@@ -1387,6 +1387,58 @@ Apache Sling, Apache Jackrabbit Oak, and Apache Felix are open-source technologi
 
 
 
+Lesson 6:
+User Roles and their Responsibilities
+CM Roles:
+These roles govern the availability of specific features:
+
+    Business Owner,    Program Manager,    Deployment Manager,    Developer
+
+The table below summarizes different Cloud Manager roles:
+Role				Description
+Business Owner:	This user is responsible for defining KPIs, approving production deployments, and overriding important 3-tier failures when necessary.
+Content Author:	This user generally does not interact with Cloud Manager but may use the Cloud Manager program switcher to access AEM.
+Customer Success Engineer: 	This user generally supports customer success for AMS customers and interacts with Cloud Manager for the purpose of executing deployments that require CSE oversight.
+Deployment Manager: 	This user manages deployment operations and uses Cloud Manager to execute staging/production deployments, edit CI/CD pipelines, approve important 3-tier failures when necessary, and can access the git repository.
+Developer:	This user develops and tests custom application code and primarily uses Cloud Manager to view deployment status and can access the git repository for code commits.
+Program Manager:	This user uses Cloud Manager to perform team setup, review status, view KPIs, and can approve important 3-tier failures when necessary.
+
+
+Using Admin Console to Create a Profile
+The following steps outline the process of adding a new profile for Cloud Manager within the Admin Console:
+
+1. Log in to the Admin Console at https://adminconsole.adobe.com(opens in a new tab).
+2. Click the Overview tab, and then on the product you want to modify on the Products and Services card. If it is not listed there, use the Products tab to locate the product and click it.
+3. On the Products tab, click the environment for which you want to add users/groups to product profiles.
+4. On the Product Profiles tab of the product, click New Profile to add a new profile.
+5. Provide the information to set up a new role for Cloud Manager. Refer to Table 3.2: Roles - Recommended Profile Name:
+    a. Profile Name: The Profile Name can be anything, although to avoid confusion, using the values in the Recommended Profile Name column is recommended.
+    b. Display Name: The Display Name must be the technical value defined by Cloud  Manager (see the following table).
+    c. Permission Group: You may choose a permission group for the profile (not always available).
+
+
+Role			Display Name (Required)			Recommended Profile Name
+Business Owner		LCM_BUSINESS_OWNER_ROLE_PROFILE		Cloud Manager - Business Owner Role
+Deployment Manager	CM_DEPLOYMENT_MANAGER_ROLE_PROFILE	Cloud Manager - Deployment Manager Role
+Developer		CM_DEVELOPER_ROLE_PROFILE		Cloud Manager - Developer Role
+Program Manager		CM_PROGRAM_MANAGER_ROLE_PROFILE		Cloud Manager - Program Manager Role
+		Table 3.2: Roles - Recommended Profile Name
+
+6. Click Done to save the new profile.
+
+
+Assigning Profiles to Users or User Groups
+Once you have created product profiles, you can assign users or user groups to them.
+
+1. Log in to the Admin Console at https://adminconsole.adobe.com(opens in a new tab).
+2. In the Admin Console, choose the Users tab.
+3. Click on Users in the left navigation panel and then click on a user to modify it.
+4. Click on the ellipsis button in the Products section and select Edit.
+5. In the Edit products and user groups dialog, click the plus () button and select the profiles to assign to the user.
+    If the user is already assigned to the roles, the plus button will be an edit button (a pencil), but it works the same way.
+6. Click Save to save the profiles to the user.
+	Repeat the same steps to assign profiles to user groups, but select User Groups from the left navigation panel on the Users tab. Click on a user group and select the Assigned Product Profiles tab and click Assign Product Profile to assign profiles.
+
 
 
 
