@@ -1,0 +1,36 @@
+<settings>
+    <interactiveMode>false</interactiveMode>
+    <profiles>
+        <profile>
+            <id>_custom_repositories_</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <repositories>
+                <repository>
+                    <id>myjfrog</id>
+                    <name>my-mvn-release</name>
+                    <url>https://subaru.jfrog.io/artifactory/my-mvn-release</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories/>
+        </profile>
+    </profiles>
+    <servers>
+        <server>
+            <id>myjfrog</id>
+            <username>${jfrog.username}</username>
+            <password>${jfrog.password}</password>
+        </server>
+        <server>
+            <id>LinuxTomcatServer</id>
+            <username>${tomcat.username}</username>
+            <password>${tomcat.password}</password>
+        </server>
+    </servers>
+    <mirrors/>
+    <proxies/>
+</settings>
