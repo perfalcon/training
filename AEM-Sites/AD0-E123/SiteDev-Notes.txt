@@ -1440,5 +1440,260 @@ Once you have created product profiles, you can assign users or user groups to t
 	Repeat the same steps to assign profiles to user groups, but select User Groups from the left navigation panel on the Users tab. Click on a user group and select the Assigned Product Profiles tab and click Assign Product Profile to assign profiles.
 
 
+3.2 Cloud Manager CI/CD Pipelines
+Cloud Manager offers a robust CI/CD framework, empowering implementation teams to efficiently test and deploy code changes. 
+A CI/CD pipeline in Cloud Manager is a mechanism to build code from a source repository and deploy it to an environment.
+A pipeline can be triggered by an event, such as a pull request from a source code repository (i.e., a code change), or on a regular schedule to match a release cadence.
+
+Adobe Experience Manager Sites Developer
+17% COMPLETE
+
+5 of 29 — Lesson 2 Quiz
+Lesson content
+Overview of Cloud Manager
+Lesson 6 of 29
+
+Adobe Experience Manager Sites Developer (AD0-E123) Exam objectives covered in this lesson include the following:
+
+    Section 1: Configurations
+
+        1.3 Explain how to create and manage OSGi configurations
+
+        1.4 Determine the correct steps to manage custom OAK indices
+
+    Section 2: AEM Development
+
+        2.3 Given a scenario, determine the correct steps to develop workflows
+
+    Section 4: Environment Maintenace
+
+        4.1 Given a scenario, determine the steps required to debug issues in AEM environment
+
+In this lesson, you will learn about the Cloud Manager, CI/CD pipeline, infrastructure, and service monitoring, which includes external availability, internal module monitoring, and customer observability. This lesson also demonstrates steps for configuring Git repositories in the cloud manager. The video below will walk you through the basic understanding of Cloud Manager.
+
+3.1 User Roles and their Responsibilities
+
+In Cloud Manager, various features and actions require specific permissions to be performed. For instance, setting key performance indicators (KPIs) for a program is restricted to only certain users. These permissions are organized into roles, which group together the necessary permissions for different responsibilities.
+
+Cloud Manager currently defines four roles for users, which govern the availability of specific features:
+
+    Business Owner
+
+    Program Manager
+
+    Deployment Manager
+
+    Developer
+
+The table below summarizes different Cloud Manager roles:
+Role	Description
+Business Owner	This user is responsible for defining KPIs, approving production deployments, and overriding important 3-tier failures when necessary.
+Content Author	This user generally does not interact with Cloud Manager but may use the Cloud Manager program switcher to access AEM.
+Customer Success Engineer
+	This user generally supports customer success for AMS customers and interacts with Cloud Manager for the purpose of executing deployments that require CSE oversight.
+Deployment Manager
+	This user manages deployment operations and uses Cloud Manager to execute staging/production deployments, edit CI/CD pipelines, approve important 3-tier failures when necessary, and can access the git repository.
+Developer
+	This user develops and tests custom application code and primarily uses Cloud Manager to view deployment status and can access the git repository for code commits.
+Program Manager
+	This user uses Cloud Manager to perform team setup, review status, view KPIs, and can approve important 3-tier failures when necessary.
+
+Table 3.1: Cloud Manager Roles
+
+Using Admin Console to Create a Profile
+
+Cloud Manager roles are managed from the Admin Console. Administrators can assign specific role memberships by adding users to the corresponding Cloud Manager product profiles. The Admin Console serves as a centralized platform for managing Adobe entitlements throughout an organization. It provides tools and functionalities to administer user access and permissions.
+
+By assigning users to the respective product profiles, administrators can control and grant the necessary permissions for each role within Cloud Manager. In order to provide the appropriate role-based permissions to Cloud Manager users, an administrator in the customer’s organization must create new product profiles under the AEM Managed Services product context corresponding to each of the four Cloud Manager roles.
+
+The following steps outline the process of adding a new profile for Cloud Manager within the Admin Console:
+
+    Log in to the Admin Console at https://adminconsole.adobe.com(opens in a new tab).
+    Click the Overview tab, and then on the product you want to modify on the Products and Services card. If it is not listed there, use the Products tab to locate the product and click it.
+
+The figure shows the Admin Console window in which the Overview tab is selected. The Take the tour button is displayed under Learn more about your Admin Console and the Product and services, and Users are shown listed. In the right pane, Quick links are displayed. Under Quick links, Add users, Add admins, and Add developers options are displayed.
+
+Figure 3.1: Admin Console - Overview
+
+3. On the Products tab, click the environment for which you want to add users/groups to product profiles.
+The figure shows the Admin Console window in which the Products tab is selected. A Search bar is displayed below Adobe Experience Manager as a Cloud Service, after which INSTANCES list with their NUMBER OF USERS and NUMBER OF ADMINS are displayed.
+
+Figure 3.2: Admin Console - Product
+
+4. On the Product Profiles tab of the product, click New Profile to add a new profile.
+The figure shows the Admin Console window, where the Products tab is selected. Below Chris' Test Program-chris-test-program-dev-author, the Product Profiles tab is selected. A search bar is displayed under Product Profiles, after which list of NAME with ENTITLED USERS, LICENSE QUOTA, ADMINS, and NOTIFY USER OF ENTITLEMENT are displayed.
+
+Figure 3.3: Admin Console - Product Profiles
+
+5. Provide the information to set up a new role for Cloud Manager. Refer to Table 3.2: Roles - Recommended Profile Name:
+
+    a. Profile Name: The Profile Name can be anything, although to avoid confusion,                             using the values in the Recommended Profile Name column is recommended.
+
+    b. Display Name: The Display Name must be the technical value defined by Cloud                             Manager (see the following table).
+
+    c. Permission Group: You may choose a permission group for the profile (not always                     available).
+The figure shows Create a New Profile page, which consists of Profile Name, Display Name, Description, Permission Group, and User Notifications. At the bottom, the Cancel and Done buttons are displayed.
+
+Figure 3.4: Create a New Profile Console
+Role	Display Name (Required)	Recommended Profile Name
+Business Owner	LCM_BUSINESS_OWNER_ROLE_PROFILE	Cloud Manager - Business Owner Role
+Deployment Manager	CM_DEPLOYMENT_MANAGER_ROLE_PROFILE	Cloud Manager - Deployment Manager Role
+Developer
+	CM_DEVELOPER_ROLE_PROFILE
+	Cloud Manager - Developer Role
+Program Manager	CM_PROGRAM_MANAGER_ROLE_PROFILE
+	Cloud Manager - Program Manager Role
+
+Table 3.2: Roles - Recommended Profile Name
+
+6. Click Done to save the new profile.
+
+Assigning Profiles to Users or User Groups
+
+Once you have created product profiles, you can assign users or user groups to them.
+
+    Log in to the Admin Console at https://adminconsole.adobe.com(opens in a new tab).
+    In the Admin Console, choose the Users tab.
+
+The figure shows the Admin Console window in which the Users tab is selected. In the left pane, Users, User Groups, Administrators, Developers, Directory Users, and API Credentials are displayed, in which the Users is selected. In the right pane, under Users, the Search by email, username, first or last name search bar is displayed. At the right pane, the Add users by CSV, Add User, and ellipsis buttons are displayed, under which the list of NAME with EMAIL, ACCOUNT STATUS, ID TYPE, and PRODUCTS are displayed.
+
+Figure 3.5: Admin Console - Users
+
+    3. Click on Users in the left navigation panel and then click on a user to modify it.
+
+    4. Click on the ellipsis button in the Products section and select Edit.
+The figure shows the Admin Console window in which the Users tab is selected. In the left pane, Users, User Groups, Administrators, Developers, Directory Users, and API Credentials are displayed, in which the Users is selected. In the right pane, under Chris Bohnert, User Details with Email, Username, and Identity Type is displayed, under which the Products panel with the Edit option is displayed.
+
+Figure 3.6: Admin Console - Edit User
+
+5. In the Edit products and user groups dialog, click the plus () button and select the profiles to assign to the user.
+
+    If the user is already assigned to the roles, the plus button will be an edit button (a pencil), but it works the same way.
+
+The figure shows the Edit products and user groups dialog box. Under Select products or user groups: 0, (+) Add button is selected, which opens a list, where the Products tab is selected. Under Products, the AEM Managed Services product is selected, which is expanded to the PRODUCT PROFILES (5) list. At the bottom, the Cancel and Save buttons are displayed.
+
+Figure 3.7: Admin Console - Edit Products and User Groups
+
+    6. Click Save to save the profiles to the user.
+
+Repeat the same steps to assign profiles to user groups, but select User Groups from the left navigation panel on the Users tab. Click on a user group and select the Assigned Product Profiles tab and click Assign Product Profile to assign profiles.
+The figure shows the Admin Console window in which the Users tab is selected. In the left pane, Users, User Groups, Administrators, Developers, Directory Users, and API Credentials are displayed, in which the Users Group is selected. In the right pane, under Business Users, the Assigned Product Profiles tab is selected. Under the Assigned Product Profile tab, the Search by name search bar is displayed and at the bottom right, the Assigned Product Profile button is displayed.
+
+Figure 3.8: Admin Console - Edit User Groups
+
+3.2 Cloud Manager CI/CD Pipelines
+
+Exam Objectives
+
+Section 1: Configurations
+                   1.3 Explain how to create and manage OSGi configurations
+
+Cloud Manager offers a robust CI/CD framework, empowering implementation teams to efficiently test and deploy code changes. A CI/CD pipeline in Cloud Manager is a mechanism to build code from a source repository and deploy it to an environment.
+
+A pipeline can be triggered by an event, such as a pull request from a source code repository (i.e., a code change), or on a regular schedule to match a release cadence. By configuring and starting automated pipelines, teams can leverage Adobe's coding best practices to perform comprehensive code scans, ensuring top-notch code quality. It further streamlines deployment by automating unit and performance testing. This process not only improves deployment efficiency but also proactively identifies critical issues that could be costly to address post-deployment. Through a comprehensive code performance report, teams gain valuable insights into the potential impact on key performance indicators (KPIs) and critical security validations when deploying code to production.
+
+To configure a pipeline, you must:
+
+    Define the trigger that will start the pipeline.
+    Define the parameters controlling the production deployment.
+    Configure the performance test parameters.
+
+Cloud Manager offers two types of pipelines:
+
+    Production Pipeline: A purpose-built pipeline includes a series of orchestrated steps to deploy source code for production use. The steps include first building, packaging, testing, validating, and deploying into all staging environments. Therefore a production pipeline can only be added once a set of production and staging environments is created.
+    Non-Production Pipeline: It mainly serves to run code quality scans or to deploy source code to a development environment.
+
+he following Table 3.3 describes the CI/CD pipeline steps.
+Step No	Pipeline Step					Description
+1	Start a release					A deployment manager triggers a release either manually, with a git commit, or based on a recurring schedule.
+2	Create release tag				Cloud Manager creates a git tag to mark the release using an automatically generated version number, for example, 2018.531.245527.0000001222.
+3	Built as release with auto-generated version	Cloud Manager builds the application with the newly-assigned version number.
+4	Evaluate code quality				Cloud Manager scans the source code and provides a summary before the code can be deployed to the staging environment.
+5	Versioned artifact(s) stored			The release artifacts are stored for later usage in the deployment steps.
+6	Automatic deployment of artifact(s) to AMS AEM staging		The release artifact is deployed to the staging environment.
+7	Trigger automated tests				Cloud Manager runs performance and security tests on the artifact.
+8	Production trigger deployment			After the automated tests are complete, Cloud Manager starts the deployment to production.
+9	Cloud Manager gets artifacts(s) to deploy	Cloud Manager pulls the stored release artifacts.
+10	Deploy artifacts(s) to production		The release artifacts are deployed to the production environment.
+			Table 3.3: Pipeline Steps
 
 
+Configuring Production Pipelines
+Adding a New Production Pipeline
+The following are steps to add a new production pipeline in Adobe Cloud Manager:
+  1. Log into Cloud Manager at my.cloudmanager.adobe.com(opens in a new tab) and select the appropriate organization and program.
+  2. From the Program Overview page, navigate to the Pipelines card and click Add and select Add Production Pipeline.
+  3. In the Add Production Pipeline dialog box, go to the Configuration tab.
+  4. Provide a descriptive name for your pipeline in the Pipeline Name field.
+  5.Under the Source Code section, define the repository from which the pipeline retrieves the code.
+    a.Specify the Git repository from where the pipeline should retrieve the code.
+    b.Select the Git branch from which the pipeline should retrieve the code.
+    c.Define the code location path within the selected branch.
+  6. Under the Environments section, define the Deployment Triggers and rollout options for each environment.
+    a. In the STAGE section, choose the Deployment Triggers (manual or on Git changes)and set the behavior for important metric failures.
+    b. Configure Deployment options and choose whether to skip load balancer changes.
+    c. Configure Dispatcher Configuration to specify content paths and their cache actions.
+  7. In the PRODUCTION section, configure the parameters for the production deployment.
+     a. Define deployment options, such as Go Live Approval, scheduling, or immediate deployment.
+
+     a. Optionally, enable CSE Oversight for a Customer Success Engineer (CSE) to start the deployment.
+     b. Configure Dispatcher Configuration for the production environment.
+  
+  8. Click Continue to move to the Stage Testing tab (if licensed), where you can configure AEM Sites and AEM Assets Performance Testing.
+     a. Configure the weighting of page requests for performance testing.
+     b. Define the distribution of images and PDFs for asset performance testing.
+  9. Click Save to complete the process of adding your production pipeline.
+
+Configuring Non-Production Pipelines
+Adding a Non-Production Pipeline
+
+The following are steps to add a non-production pipeline in Adobe Cloud Manager:
+ 1. Log into Cloud Manager at my.cloudmanager.adobe.com(opens in a new tab) and select the appropriate organization and program.
+ 2. Access the Pipelines card from the Cloud Manager home screen. Click Add and select Add Non-Production Pipeline.
+ 3. In the Add Non-Production Pipeline dialog box, go to the Configuration tab and choose the type of pipeline you want to create: Code Quality Pipeline or Deployment Pipeline.
+ 4. Provide a description for your pipeline in the Non-Production Pipeline Name field.
+ 5. If you selected a Deployment Pipeline, choose the target deployment environment from the Eligible Deployment Environments list.
+ 6. Specify the repository from which the pipeline should retrieve the code.
+     a. Select the Git repository from which the pipeline should retrieve the code.
+     b. Choose the Git branch from which the pipeline should retrieve the code.
+ 7.Define your deployment options.
+     a. Under Deployment Trigger, select the event that activates the pipeline: Manual or on Git Changes.
+     b. For deployment pipelines, under Important Metric Failures Behavior, specify the behavior when encountering important failures in quality gates.
+ 8. Click Save to save your pipeline
+
+
+Code Sources
+In addition to production and non-production, pipelines can be differentiated by the type of code they deploy:
+
+    Full Stack Pipelines: Simultaneously deploy back-end and front-end code builds containing one or more AEM server applications along with HTTPD/Dispatcher configurations
+    Front-End Pipelines: Deploy front-end code builds containing one or more client-side UI applications
+    Web Tier Config Pipelines: Deploy HTTPD/Dispatcher configurations
+
+Understanding CI-CD Pipelines in Cloud Manager
+The following Table 3.4 summarizes all of the pipelines available in Cloud Manager and their usage.
+
+Pipeline Type			Deployment or Code Quality	Source Code		Purpose				Notes   
+Production or Non-Production	Deployment			Full-Stack		Simultaneously deploys back-end and front-end code builds along with HTTPD/Dispatcher configurations	
+				When front-end code must be deployed simultaneously with AEM server code.When front-end pipelines or web tier config pipelines have not yet been adopted.
+
+Production or Non-Production 	Deployment	Front-End 	Deploys front-end code build containing one or more client-side UI application
+											Supports multiple, concurrent front-end pipelines Much faster than full-stack deployments
+Production or Non-Production	Deployment   Web Tier Config	Deploys HTTPD/Dispatcher configurations			Deploys in minutes
+Non-Production			Code Quality	Full-Stack	Runs code quality scans on full-stack code without a deployment		Supports multiple pipelines
+Non-Production			Code Quality	Front-End	Runs code quality scans on front-end code without a deployment  	Supports multiple pipelines
+Non-Production			Code Quality	Web Tier Config	Runs code quality scans on dispatcher configurations without a deployment	Supports multiple pipelines
+
+Table 3.4: Pipelines available in Cloud Manager
+
+Full-Stack Pipelines
+Full-stack pipelines deploy back-end code, front-end code, and web tier configurations to AEM runtime all at the same time.
+
+    Back-End Code: Immutable content such as Java code, OSGi configurations, repoint, as well as mutable content
+    Front-End Code: Application UI resources such as JavaScript, CSS, fonts
+    Web Tier Config: HTTPD/Dispatcher configurations
+
+The full-stack pipeline represents an ‘uber’ pipeline, doing everything at once while giving users the option to exclusively deploy their front-end code or Dispatcher configurations via the front-end pipeline and the web tier config pipelines, respectively. 
+Full-stack pipelines package front-end code (JavaScript/CSS) as AEM client libraries. 
+Full-stack pipelines may deploy web tier configurations if a web tier config pipeline is not configured.
+
+Restrictions
