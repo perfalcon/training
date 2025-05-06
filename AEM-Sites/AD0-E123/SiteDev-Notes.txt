@@ -1697,3 +1697,106 @@ Full-stack pipelines package front-end code (JavaScript/CSS) as AEM client libra
 Full-stack pipelines may deploy web tier configurations if a web tier config pipeline is not configured.
 
 Restrictions 
+    A user must be logged in with the Deployment Manager role in order to configure or run pipelines.
+    At any time, there can only be one full-stack pipeline per environment.
+
+    The full-stack pipeline for an environment will ignore the Dispatcher configuration if the corresponding web tier config pipeline exists.
+    If the corresponding web tier config pipeline for the environment does not exist, the user can configure the full-stack pipeline, including or ignoring the Dispatcher configuration.
+
+Front-End Pipelines
+Front-end code is any code that is served as a static file. 
+It is separate from UI code served by AEM and may include site themes, customer-defined SPAs, SPAs, and other solutions.
+
+
+
+
+3.3 Infrastructure and Service Monitoring
+AEMaaCS provides observability and monitoring of infrastructure, services, and user experience.
+
+    External availability
+    Internal module monitoring
+    Customer observability
+
+External Availability
+	External availability is comprised of two parts: Service Edge and Custom Monitoring.
+
+	Service Edge
+	 Service Edge Monitoring is set up only for production environments and the metrics are used to calculate the customer’s SLA. 
+	 It takes environment runtime and the AEMaaCS CDN into consideration. 
+	Service Edge Monitoring employs five distinct locations close to your chosen region and checks periodically for availability. 
+	A site’s unavailability will trigger an alert and will engage Adobe’s on-call support teams and processes.
+	
+	Custom Monitoring
+	With Custom monitoring, customers have the option to provide up to five distinct web property URLs prior to going live. 
+	These URLs should be valid and return an HTTP 200 response code. 
+	These monitors support customers who bring their own CDN in front of the Adobe CDN and any external traffic routing employed in front of AEMaaCS that is not under Adobe’s control. 
+	Alerts resulting from Custom Monitoring checks will engage Adobe’s support teams and processes.
+
+Internal Module Monitoring
+Internal module monitoring observes whether the architectural sub-systems are operating nominally without feature or performance degradation. 
+
+	The following are various categories of monitors:
+	    The CPU iowait percentage does not exceed a certain threshold.
+	    Instance redeployments do not exceed a certain frequency.
+	    Disk usage is below a certain threshold.
+	    Author repository size is within certain bounds.
+	    Backup operations are completed successfully.
+	    Database health and performance are monitored.
+	    AEM Cloud services are behaving as expected, including no blocked replication queues, consistent data, and performant queries.
+	
+	Additional checks are added to environments provisioned for Forms
+
+Customer Observability
+	Customers can use the New Relic Application Performance Monitoring (opens in a new tab)suite that provides real-time performance data collected and charted for analysis and troubleshooting.
+
+By using the monitoring suite, customers can directly observe various metrics such as JVM performance metrics, transaction time for Java, background external calls, and database calls.
+
+
+3.4 Cloud Manager API and CLI
+The Cloud Manager API is a RESTful API that allows you to programmatically interact with AEMaaCS.
+
+The API provides access to all of the features of AEMaaCS, including:
+    Creating and managing environments
+    Deploying applications to environments
+    Managing users and permissions
+    Monitoring environment health
+
+To use the Cloud Manager API, you will need to create an Adobe I/O Console account.
+This API allows access to Cloud Manager programs, pipelines, and environments by an authorized technical account created through the Adobe I/O Console. 
+
+The base url for this API is https://cloudmanager.adobe.io
+To get the list of programs for an organization, you would make a GET request to https://cloudmanager.adobe.io/api/programs
+This swagger file can be downloaded from https://raw.githubusercontent.com/AdobeDocs/cloudmanager-api-docs/main/swagger-specs/api.yaml.
+
+Here are some examples of how you can use the Cloud Manager API:
+
+    Create a pipeline that automatically deploys your application to a new environment whenever you make a change to your code.
+    Create a script that polls the Cloud Manager API for environment health status and sends an alert if an environment is unhealthy.
+    Create a report that shows the number of active users in each environment.
+
+
+CLI Program
+
+The aio-cli-plugin-cloudmanager is a command-line tool (CLI) plugin specifically designed for interacting with AEM Cloud Manager.
+It provides additional functionality and commands to manage AEM projects, programs, pipelines, and environments directly from the command line.
+
+With the aio-cli-plugin-cloudmanager, developers and administrators can perform various tasks such as deploying AEM instances, creating, and managing pipelines, promoting code from one environment to another, and monitoring the status of deployments.
+
+This plugin enhances the development and deployment workflow by enabling seamless integration between AEM Cloud Manager and command-line operations, allowing for more efficient and automated management of AEM projects within the Cloud Manager environment.
+
+To use the aio-cli-plugin-cloudmanager, you first need to install the Adobe I/O CLI.
+after that:
+
+npm install -g @adobe/aio-cli-plugin-cloudmanager
+
+ interact with Cloud Manager by running the following command.
+	aio cloudmanager:help
+	
+list all of the available commands for the plugin
+	aio cloudmanager:command-name --help	
+
+to get help on the create-environment command
+	aio cloudmanager:create-environment --help
+
+
+
