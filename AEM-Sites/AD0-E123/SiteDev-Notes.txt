@@ -1696,4 +1696,4 @@ The full-stack pipeline represents an ‘uber’ pipeline, doing everything at o
 Full-stack pipelines package front-end code (JavaScript/CSS) as AEM client libraries. 
 Full-stack pipelines may deploy web tier configurations if a web tier config pipeline is not configured.
 
-Restrictions
+Restrictions 
