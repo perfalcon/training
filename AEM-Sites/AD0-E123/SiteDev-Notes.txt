@@ -1800,3 +1800,76 @@ to get help on the create-environment command
 
 
 
+Authentication
+The aio-cli-plugin-cloudmanager offers two modes of authentication: Browser-based and Service Account.
+Browser-Based Authentication
+The CLI operates with your personal permissions, leveraging your authentication session
+Browser-based authentication starts by running this command.
+	aio auth:login
+This will open a browser window where you can authenticate using your Adobe Identity credentials.
+
+In addition to authentication, the CLI requires the Adobe Organization Identifier (OrgId). There are two ways to provide this information:
+
+    You can run the command aio cloudmanager:org:select and use the interactive menu to select the organization. By default, the selected organization will be stored in the current working directory. You can also store the selection globally by adding the --global flag.
+    You can set the organization identifier using the command aio config:set cloudmanager_orgid <myorgid> by replacing <myorgid> with your actual organization identifier. If you have already selected an organization using aio console:org:select, that organization will be used automatically.
+
+Service Account Authentication
+To use service account authentication in AEM's aio-cli-plugin-cloudmanager, you need to create an integration in the Adobe I/O Console.
+After you've created the integration, create a config.json file on your computer and navigate to the integration Overview page. From this page, copy the values into the file as described below.
+
+After you've created the integration, create a config.json file on your computer and navigate to the integration Overview page. From this page, copy the values into the file as described below.
+//config.json
+{
+ "client_id": "value from your CLI integration (String)",
+ "client_secret": "value from your CLI integration (String)",
+ "technical_account_id": "value from your CLI integration (String)",
+ "ims_org_id": "value from your CLI integration (String)",
+ "meta_scopes": [
+ "ent_cloudmgr_sdk"
+ ]
+}
+Configuring the credentials:
+	aio config:set ims.contexts.aio-cli-plugin-cloudmanager PATH_TO_CONFIG_JSON_FILE --file --json
+Configuring the private certificate:
+	aio config:set ims.contexts.aio-cli-plugin-cloudmanager.private_key PATH_TO_PRIVATE_KEY_FILE --file
+
+Configuration
+	Set Default Program
+	$ aio config:set cloudmanager_programid PROGRAMID
+		aio cloudmanager:create-environment my-env
+	otherwise use this : aio cloudmanager:create-environment my-env --program-id 4
+
+	Set Default Environment
+	$ aio config:set cloudmanager_environmentid ENVIRONMENTID
+		$ aio config:set cloudmanager_environmentid dev
+
+Exit Codes
+Primarily for scripting application purposes, the following exit codes are used:
+
+    1: A generic error has occurred
+    2: A configuration error has occurred
+    3: A validation error with the supplied flags or arguments has occurred
+    10: An error in IMS authentication has occurred
+    30: An error emanating from the Cloud Manager SDK has occurred
+
+3.5 Configuring Git Repositories in Cloud Manager
+Adding and Managing Repositories
+
+The following are the steps to view and manage repositories in Cloud Manager:
+    1. From the Program Overview page, click the Repositories tab and navigate to the Repositories page.
+    2. Click Add Repository to start the wizard.
+    3. Enter the name and description as requested and click Save.
+
+   When the wizard closes, your new repository will be displayed in the table. You can select the repository in the table and click on the ellipsis button and select Copy Repository URL, View & Update, or Delete.	
+  Repositories created in Cloud Manager will also be available for you to select when adding or editing pipelines. There is a single primary repository or a branch for any given pipeline. With git submodule support, many secondary branches can be included at build time.
+
+Deleting a Repository
+    Make the deleted repository name unusable for new repositories that may be created in the future.
+        The error message Repository name should be unique within the organization will be shown in such cases.
+    Make the deleted repository unavailable in Cloud Manager and unavailable for linking to a pipeline.
+
+    Follow these to delete a repository in Cloud Manager:
+    1. From the Program Overview page, click on the Repositories tab and navigate to the Repositories page.
+    2. Select the repository and click on the ellipsis button and select Delete to delete the repository.
+
+Git Submodule Support
