@@ -76,4 +76,92 @@
         Purpose:
         Each method is designed for a specific type of action on a resource (create, read, update, delete). 
 
+6. What is Method Reference and Functional Interface?
+    Reference : https://medium.com/@kumar.atul.2122/java-8-lambda-functional-interface-method-reference-stream-api-and-optional-class-f685143635fb
+
+    A functional interface is an interface that contains exactly one abstract method.
+    ```
+    Define:
+          @FunctionalInterface
+      interface MyFunctionalInterface {
+          void doSomething();
+      }
+    Usage:
+       public class Main {
+       public static void main(String[] args) {
+           MyFunctionalInterface myLambda = () -> System.out.println("Hello, world!");
+           myLambda.doSomething();
+       }
+   }
+   ```
+    Java provides several built-in functional interfaces that you can use directly in your code. Here are some examples:
    
+    - java.lang.Runnable: This functional interface represents a task that can be executed asynchronously. It has a single abstract method, run(), which takes no arguments and returns no value.
+    - java.util.function.Consumer<T>: This functional interface represents an operation that takes a single input and returns no result. It has a single abstract method, accept(T t), which takes an object of type T as its argument and returns no value.
+    - java.util.function.Supplier<T>: This functional interface represents a supplier of results. It has a single abstract method, get(), which takes no arguments and returns an object of type T.
+    - java.util.function.Predicate<T>: This functional interface represents a predicate (a boolean-valued function) of one argument. It has a single abstract method, test(T t), which takes an object of type T as its argument and returns a boolean.
+    - java.util.function.Function<T,R>: This functional interface represents a function that takes one argument and returns a result. It has a single abstract method, apply(T t), which takes an object of type T as its argument and returns an object of type R.
+    - java.util.Comparator<T>: This functional interface represents a function that can compare two objects of type T. It has a single abstract method, compare(T o1, T o2), which takes two objects of type T as its arguments and returns an integer value that represents their order.
+
+   Method reference:
+    - Method references in Java allow you to refer to an existing method by name instead of defining a new lambda expression. It is a shorthand notation for writing lambdas that call a single method.
+
+   There are four types of method references:
+    - Reference to a static method: You can refer to a static method using the Classname::methodname syntax. For example, Math::max refers to the max() method of the Math class.
+    - Reference to an instance method of an object: You can refer to an instance method of an object using the object::methodname syntax. For example, if you have an object person of the Person class, you can refer to its getName() method using person::getName.
+  
+    - Reference to an instance method of a class: You can refer to an instance method of a class using the Classname::methodname syntax. For example, String::length refers to the length() method of the String class.
+    - Reference to a constructor: You can refer to a constructor using the Classname::new syntax. For example, ArrayList::new refers to the default constructor of the ArrayList class.
+  
+   Stream API:
+    - stream api enables to perform operations on collections of data. The Stream API provides a fluent and functional way to perform filter/map/reduce operations on collections.
+      ```
+        // use the Stream API to filter the list of integers
+        List<Integer> evenNumbers = numbers.stream()
+                                           .filter(n -> n % 2 == 0)
+                                           .toList();
+      ```
+   Optional class:
+    - The Optional class in Java is a container object that may or may not contain a non-null value. It is often used as a return type in methods to indicate that the method may or may not return a result.
+      Advantages of using Optional:
+        1. Avoiding null pointer exceptions: By using Optional instead of null values, you can avoid null pointer exceptions, which are a common source of bugs in Java programs. If you try to access the value of an Optional that is empty, you will get an NoSuchElementException instead of a null pointer exception.
+        2. Improved readability: Using Optional in your code makes it more clear that a value may or may not be present. This can make your code more readable and easier to understand for other developers.
+        3. Encouraging defensive programming: By using Optional, you are encouraged to write defensive code that handles null values in a clear and explicit way. This can help to prevent bugs and make your code more robust.
+        4. Better code design: Using Optional can encourage you to design your code in a way that makes null values less common. For example, you may choose to use default values or other techniques to handle missing data instead of using null values directly.
+
+7. Please define Overridden rules for default/static method in java 8.
+    Default method in Java is a method in java which are defined inside the interface with the keyword default is known as the default method. It is a type of non-abstract method. 
+    This method is capable of adding backward capability so that the old interface can grasp the lambda expression capability.
+    Java Interface Default method is also known as Defender Method or virtual extension method.
+
+      It is not mandatory to override the default method in Java. 
+
+      If we are using Only one interface in a Program then at a time we are using only a single default method and at that time Overriding is not required
+   But when more than two Interfaces are used and both act as parent class then at that time Overriding of the Default Method is required
+8. what is database sharding?
+      Database sharding is a technique used to distribute data across multiple database servers, enabling scalability and improved performance for very large datasets.
+      Instead of storing everything on a single server, data is split into smaller chunks, called shards, and placed on different servers, each handling a portion of the total data.
+      This approach helps manage large workloads, reduces the load on individual servers, and can improve query speeds
+      Scalability, Reduce Load, Parallel Processing, Fault Tolerance, Different Sharding Strategies & NoSQL and SQL
+9. please give brief description about hashcode() and equals()
+      equals():
+          - Definition:
+          equals() is a method used to determine if two objects are logically equal. It compares the content or properties of the objects rather than just their memory addresses.
+          - Purpose:
+             Determines if two objects are equivalent based on their data, not just their reference in memory.
+          - Overriding:
+             It's often overridden in custom classes to define what constitutes equality for those classes.
+          - Importance:
+             Used by collections like HashSet to ensure that only unique elements are stored, and by methods like contains() to check if a collection contains a specific object. 
+      
+      - hashCode():      
+          - Definition:
+             hashCode() is a method that returns an integer value representing an object. This value is used by hash-based data structures for efficient storage and retrieval.
+          - Purpose:
+            Provides a numerical identifier for an object that can be used to quickly locate the object within a collection. 
+          - Overriding:
+            It's often overridden in custom classes to ensure that equal objects have the same hash code and that hash code is well-distributed. 
+          - Importance:
+            In hash-based collections like HashMap, hashCode() is used to determine the bucket where an object should be stored, and equals() is then used to find the object within that bucket. 
+
+12. 
