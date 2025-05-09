@@ -162,6 +162,10 @@
           - Overriding:
             It's often overridden in custom classes to ensure that equal objects have the same hash code and that hash code is well-distributed. 
           - Importance:
-            In hash-based collections like HashMap, hashCode() is used to determine the bucket where an object should be stored, and equals() is then used to find the object within that bucket. 
+            In hash-based collections like HashMap, hashCode() is used to determine the bucket where an object should be stored, and equals() is then used to find the object within that bucket.
+      - hashCode() and equals() contract:
+         - The basic rule of the contract states that if two objects are equal to each other based on equals() method, then the hash code must be the same,
+         - but if the hash code is the same, then equals() can return false.
+   
 
 12. 
