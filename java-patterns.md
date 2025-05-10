@@ -1,4 +1,7 @@
 # Patterns
+<details>
+    <summary>1.Singleton</summary>
+
 1. Singleton
     - The Singleton pattern in Java ensures that a class has only one instance and provides a global point of access to it. This pattern is useful when exactly one object is needed to coordinate actions across the system, such as managing a database connection or a configuration file.
    ```
@@ -25,13 +28,16 @@
                 singleton.doSomething();
             }
         }
-   
-
+</details>   
+<details>
+    <summary>2. Builder</summary>
 2. Builder
    - The builder pattern allows you to enforce a step-by-step process to construct a complex object as a finished product.
    - Create the setter methods and call them in the order for the final activity to be completed.
    - ref: https://springframework.guru/gang-of-four-design-patterns/builder-pattern/
-
+</details>
+<details>
+    <summary>3. Factory</summary>
 3. Factory
    - The Factory Pattern is a creational design pattern that provides an interface for creating objects, but allows subclasses to alter the type of objects that will be created.
    - It encapsulates object creation, promoting loose coupling and flexibility in code.
@@ -182,7 +188,10 @@
               }
           }
       ```
-5. Prototype:
+</details>
+ <details>
+    <summary>4. Prototype</summary>     
+4. Prototype:
    - The Prototype pattern is a creational design pattern that enables the creation of new objects by cloning an existing object, known as the prototype.
    - This pattern is useful when creating new objects is costly or complex, and it's more efficient to copy an existing object and modify it as needed.
    - Implementation
@@ -249,8 +258,10 @@
         - Disadvantages        
             - Cloning complex objects can be challenging, especially when dealing with circular references.
             - Requires implementing the Cloneable interface and handling CloneNotSupportedException.
-   
-6. Adapter    
+ </details>  
+ <details>
+    <summary>5. Adapter</summary>     
+5. Adapter    
      - The Adapter Pattern is a structural design pattern that enables objects with incompatible interfaces to collaborate.
      - It acts as a bridge, converting the interface of one class (the adaptee) into an interface (the target) that a client expects.
      - This allows the client to use the adaptee's functionality without modifying the adaptee's code.
@@ -315,8 +326,10 @@
          - When you want to use an existing class, but its interface does not match the one you need.
          - When you want to create a reusable class that can work with different, unforeseen classes.
          - When you need to use several existing subclasses, but it's impractical to adapt their interface by modifying their parent class.
-
-7. Observer
+</details>
+<details>
+    <summary>6. Observer</summary>
+6. Observer
     - The Observer pattern is a behavioral design pattern that establishes a one-to-many dependency between objects.
     - When the state of one object (the subject) changes, all its dependents (observers) are automatically notified and updated.
     - This pattern is useful in scenarios where a change in one object requires corresponding actions in other objects, without tightly coupling the objects together
@@ -402,5 +415,5 @@
             }
         }
       ``` 
+</details>
 
-8. 
