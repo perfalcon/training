@@ -250,3 +250,157 @@
             - Cloning complex objects can be challenging, especially when dealing with circular references.
             - Requires implementing the Cloneable interface and handling CloneNotSupportedException.
    
+6. Adapter    
+     - The Adapter Pattern is a structural design pattern that enables objects with incompatible interfaces to collaborate.
+     - It acts as a bridge, converting the interface of one class (the adaptee) into an interface (the target) that a client expects.
+     - This allows the client to use the adaptee's functionality without modifying the adaptee's code.
+     - Two types of adapters:
+          - Object Adapter:
+            - Uses composition. The adapter class holds an instance of the adaptee and implements the target interface by delegating calls to the adaptee.
+          - Class Adapter:
+            - Uses inheritance. The adapter class inherits from both the target interface and the adaptee class. This approach is less common in Java due to its single inheritance limitation.
+     - Participants in the Adapter Pattern:
+       - Target Interface: Defines the interface that the client expects to use.
+       - Adaptee: The existing class with an incompatible interface.
+       - Adapter: Implements the target interface and adapts the adaptee's interface to the target interface. 
+       - Client: The class that uses the target interface to interact with the adaptee through the adapter.
+       ```
+            // Target Interface
+        interface Shape {
+            void draw();
+        }
+        
+        // Adaptee
+        class LegacyRectangle {
+            public void display(int x, int y, int w, int h) {
+                System.out.println("Legacy Rectangle: x=" + x + ", y=" + y + ", width=" + w + ", height=" + h);
+            }
+        }
+        
+        // Adapter
+        class RectangleAdapter implements Shape {
+            private LegacyRectangle rectangle;
+            private int x, y, w, h;
+        
+            public RectangleAdapter(LegacyRectangle rectangle, int x, int y, int w, int h) {
+                this.rectangle = rectangle;
+                this.x = x;
+                this.y = y;
+                this.w = w;
+                this.h = h;
+            }
+        
+            @Override
+            public void draw() {
+                rectangle.display(x, y, w, h);
+            }
+        }
+        
+        // Client
+        public class Main {
+            public static void main(String[] args) {
+                LegacyRectangle legacyRectangle = new LegacyRectangle();
+                RectangleAdapter adapter = new RectangleAdapter(legacyRectangle, 10, 20, 30, 40);
+                adapter.draw(); // Output: Legacy Rectangle: x=10, y=20, width=30, height=40
+            }
+        }
+        ```
+       
+       - Benefits of the Adapter Pattern:
+         - Allows reusing existing classes that have incompatible interfaces.
+         - Separates the client from the adaptee, promoting loose coupling.
+         - Improves code maintainability and flexibility.
+        
+       - When to Use the Adapter Pattern:
+         - When you want to use an existing class, but its interface does not match the one you need.
+         - When you want to create a reusable class that can work with different, unforeseen classes.
+         - When you need to use several existing subclasses, but it's impractical to adapt their interface by modifying their parent class.
+
+7. Observer
+    - The Observer pattern is a behavioral design pattern that establishes a one-to-many dependency between objects.
+    - When the state of one object (the subject) changes, all its dependents (observers) are automatically notified and updated.
+    - This pattern is useful in scenarios where a change in one object requires corresponding actions in other objects, without tightly coupling the objects together
+      - Here's how the Observer pattern is typically implemented in Java:        
+       - Subject Interface: Defines methods for attaching, detaching, and notifying observers.        
+       - Concrete Subject: Implements the Subject interface, maintains a list of observers, and notifies them of state changes. 
+       - Observer Interface: Defines the update method that observers must implement.
+       - Concrete Observers: Implement the Observer interface and react to state changes in the subject.
+     ```
+             // Subject interface
+        interface Subject {
+            void attach(Observer observer);
+            void detach(Observer observer);
+            void notifyObservers();
+        }
+        
+        // Concrete Subject
+        class ConcreteSubject implements Subject {
+            private List<Observer> observers = new ArrayList<>();
+            private String state;
+        
+            public String getState() {
+                return state;
+            }
+        
+            public void setState(String state) {
+                this.state = state;
+                notifyObservers();
+            }
+        
+            @Override
+            public void attach(Observer observer) {
+                observers.add(observer);
+            }
+        
+            @Override
+            public void detach(Observer observer) {
+                observers.remove(observer);
+            }
+        
+            @Override
+            public void notifyObservers() {
+                for (Observer observer : observers) {
+                    observer.update(state);
+                }
+            }
+        }
+        
+        // Observer interface
+        interface Observer {
+            void update(String state);
+        }
+        
+        // Concrete Observers
+        class ConcreteObserverA implements Observer {
+            @Override
+            public void update(String state) {
+                System.out.println("ConcreteObserverA: State changed to " + state);
+            }
+        }
+        
+        class ConcreteObserverB implements Observer {
+            @Override
+            public void update(String state) {
+                System.out.println("ConcreteObserverB: State changed to " + state);
+            }
+        }
+        
+        // Example usage
+        public class ObserverPatternExample {
+            public static void main(String[] args) {
+                ConcreteSubject subject = new ConcreteSubject();
+        
+                ConcreteObserverA observerA = new ConcreteObserverA();
+                ConcreteObserverB observerB = new ConcreteObserverB();
+        
+                subject.attach(observerA);
+                subject.attach(observerB);
+        
+                subject.setState("New State");
+                subject.detach(observerA);
+                subject.setState("Another State");
+            }
+        }
+      ``` 
+
+8. 
