@@ -39,66 +39,66 @@
 <details>
     <summary>3. Factory</summary>
 3. Factory
-   - The Factory Pattern is a creational design pattern that provides an interface for creating objects, but allows subclasses to alter the type of objects that will be created.
-   - It encapsulates object creation, promoting loose coupling and flexibility in code.
-   - There are two main types of factory patterns: Factory Method and Abstract Factory.
-   ### Factory Method:
-      - The Factory Method pattern defines an interface for creating an object, but lets subclasses decide which class to instantiate.
-      - This allows a class to defer instantiation to subclasses.
-        ```
-        // Product interface
-        interface Animal {
-            String makeSound();
-        }
-        
-        // Concrete products
-        class Dog implements Animal {
-            @Override
-            public String makeSound() {
-                return "Woof!";
-            }
-        }
-        
-        class Cat implements Animal {
-            @Override
-            public String makeSound() {
-                return "Meow!";
-            }
-        }
-        
-        // Creator interface
-        interface AnimalFactory {
-            Animal createAnimal();
-        }
-        
-        // Concrete creators
-        class DogFactory implements AnimalFactory {
-            @Override
-            public Animal createAnimal() {
-                return new Dog();
-            }
-        }
-        
-        class CatFactory implements AnimalFactory {
-            @Override
-            public Animal createAnimal() {
-                return new Cat();
-            }
-        }
-        
-        // Client code
-        public class Main {
-            public static void main(String[] args) {
-                AnimalFactory dogFactory = new DogFactory();
-                Animal dog = dogFactory.createAnimal();
-                System.out.println(dog.makeSound()); // Output: Woof!
-        
-                AnimalFactory catFactory = new CatFactory();
-                Animal cat = catFactory.createAnimal();
-                System.out.println(cat.makeSound()); // Output: Meow!
-            }
-        }
-        ```
+       - The Factory Pattern is a creational design pattern that provides an interface for creating objects, but allows subclasses to alter the type of objects that will be created.
+       - It encapsulates object creation, promoting loose coupling and flexibility in code.
+       - There are two main types of factory patterns: Factory Method and Abstract Factory.
+       ###  Factory Method:
+          - The Factory Method pattern defines an interface for creating an object, but lets subclasses decide which class to instantiate.
+          - This allows a class to defer instantiation to subclasses.
+             ```
+                    // Product interface
+                    interface Animal {
+                        String makeSound();
+                    }
+                    
+                    // Concrete products
+                    class Dog implements Animal {
+                        @Override
+                        public String makeSound() {
+                            return "Woof!";
+                        }
+                    }
+                    
+                    class Cat implements Animal {
+                        @Override
+                        public String makeSound() {
+                            return "Meow!";
+                        }
+                    }
+                    
+                    // Creator interface
+                    interface AnimalFactory {
+                        Animal createAnimal();
+                    }
+                    
+                    // Concrete creators
+                    class DogFactory implements AnimalFactory {
+                        @Override
+                        public Animal createAnimal() {
+                            return new Dog();
+                        }
+                    }
+                    
+                    class CatFactory implements AnimalFactory {
+                        @Override
+                        public Animal createAnimal() {
+                            return new Cat();
+                        }
+                    }
+                    
+                    // Client code
+                    public class Main {
+                        public static void main(String[] args) {
+                            AnimalFactory dogFactory = new DogFactory();
+                            Animal dog = dogFactory.createAnimal();
+                            System.out.println(dog.makeSound()); // Output: Woof!
+                    
+                            AnimalFactory catFactory = new CatFactory();
+                            Animal cat = catFactory.createAnimal();
+                            System.out.println(cat.makeSound()); // Output: Meow!
+                        }
+                    }
+              ```
       ### Abstract Factory
         - The Abstract Factory pattern provides an interface for creating families of related or dependent objects without specifying their concrete classes
       ```
