@@ -452,6 +452,20 @@
  - Basically this pattern separates read and update operations for a database.
  - ![](https://miro.medium.com/v2/resize:fit:720/format:webp/1*eCqGeLVWq0luxZ75vpBKzg.png)
 
-10.  
+10. Two Phase Commit - MicroServices
+  - In the context of microservices, the two-phase commit (2PC) pattern is a distributed transaction protocol used to ensure that changes to multiple microservices are either all applied or none are, maintaining data consistency across services.
+  - It works by orchestrating a "prepare" phase where participants vote on whether they can commit, followed by a "commit" or "rollback" phase based on the results.
+  - The Two-Phase Commit is an atomic commitment protocol used in distributed systems to ensure that a distributed transaction either commits on all involved nodes or rolls back entirely
+  - ![](https://miro.medium.com/v2/resize:fit:720/format:webp/1*KTD6fE3yGAb86hRrWjQelA.png)
+  - 2PC guarantees that all nodes will commit or abort a transaction, but it can be slow and vulnerable to failure.
+  - Two Phases:
+      - Prepare Phase: A coordinator (a central service) asks all participating microservices whether they can commit the transaction. Each service checks if it can proceed and votes accordingly (yes or no).
+      - Commit/Rollback Phase:
+          - If all participants vote "yes" in the prepare phase, the coordinator instructs all services to commit the changes permanently.
+          - If any participant votes "no" or doesn't respond, the coordinator instructs all services to roll back their changes. 
+11. Domain Pattern - MicroServices
+ - In the context of microservices, a Domain pattern, specifically Domain-Driven Design (DDD), is a method for designing software that focuses on the core business domain, representing it as a model within the code.
+ - This approach divides a complex application into smaller, independently deployable microservices, each responsible for a specific bounded context or subdomain within the overall business. 
+12. 
 
 
