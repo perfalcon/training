@@ -429,5 +429,29 @@
  - Benefits:
      - Prevents Cascading Failures: By isolating failing services, the circuit breaker prevents failures from spreading to other parts of the system.
      - Improved System Resilience: The system can handle temporary failures without completely shutting down.
-     - Resource Optimization: Repeated failed requests are avoided, freeing up resources for other parts of the system. 
-8. 
+     - Resource Optimization: Repeated failed requests are avoided, freeing up resources for other parts of the system.
+
+8. SAGA Pattern - MicroServices
+ - The Saga pattern is a design pattern used in microservices to manage distributed transactions, especially those that span multiple services.
+ - It breaks down a complex, long-running transaction into a sequence of smaller, local transactions, each managed by a single microservice.
+ - Each local transaction, when successful, publishes an event to trigger the next transaction in the sequence.
+ - If a local transaction fails, the Saga executes compensating transactions to undo the changes made by previous successful transactions, ensuring eventual consistency.
+ - ![](https://miro.medium.com/v2/resize:fit:700/0*OZEToHT0UrRMytrJ.png)
+ - There are two main approaches to implementing Sagas:
+     - Choreography: Services publish events, and other services listen for those events, reacting and triggering subsequent steps in the saga.
+     - Orchestration: A central orchestrator service manages the saga workflow, triggering each step in sequence and handling compensations.
+
+ - Benefits of the Saga Pattern:
+     - Improved Fault Tolerance
+     - Decentralized Transactions
+     - Long-Lived Transactions
+     - Eventual Consistency      
+
+9. CQRS Design Pattern
+ - CQRS stands for Command and Query Responsibility Segregation.
+ - Basically this pattern separates read and update operations for a database.
+ - ![](https://miro.medium.com/v2/resize:fit:720/format:webp/1*eCqGeLVWq0luxZ75vpBKzg.png)
+
+10. 
+
+
