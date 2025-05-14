@@ -130,18 +130,18 @@
         4. Better code design: Using Optional can encourage you to design your code in a way that makes null values less common. For example, you may choose to use default values or other techniques to handle missing data instead of using null values directly.
 
 7. Please define Overridden rules for default/static method in java 8.
-    Default method in Java is a method in java which are defined inside the interface with the keyword default is known as the default method. It is a type of non-abstract method. 
-    This method is capable of adding backward capability so that the old interface can grasp the lambda expression capability.
-    Java Interface Default method is also known as Defender Method or virtual extension method.
-
-      It is not mandatory to override the default method in Java. 
-
-      If we are using Only one interface in a Program then at a time we are using only a single default method and at that time Overriding is not required
-   But when more than two Interfaces are used and both act as parent class then at that time Overriding of the Default Method is required
+  - Default method in Java is a method in java which are defined inside the interface with the keyword default is known as the default method.
+  - It is a type of non-abstract method.
+  - This method is capable of adding backward capability so that the old interface can grasp the lambda expression capability.
+  - Java Interface Default method is also known as Defender Method or virtual extension method.
+  - It is not mandatory to override the default method in Java.
+  - If we are using Only one interface in a Program then at a time we are using only a single default method and at that time Overriding is not required.
+  - But when more than two Interfaces are used and both act as parent class then at that time Overriding of the Default Method is required
+    
 8. what is database sharding?
-      Database sharding is a technique used to distribute data across multiple database servers, enabling scalability and improved performance for very large datasets.
-      Instead of storing everything on a single server, data is split into smaller chunks, called shards, and placed on different servers, each handling a portion of the total data.
-      This approach helps manage large workloads, reduces the load on individual servers, and can improve query speeds
+   - Database sharding is a technique used to distribute data across multiple database servers, enabling scalability and improved performance for very large datasets.
+   - Instead of storing everything on a single server, data is split into smaller chunks, called shards, and placed on different servers, each handling a portion of the total data.
+   - This approach helps manage large workloads, reduces the load on individual servers, and can improve query speeds
       Scalability, Reduce Load, Parallel Processing, Fault Tolerance, Different Sharding Strategies & NoSQL and SQL
 9. please give brief description about hashcode() and equals()
       equals():
