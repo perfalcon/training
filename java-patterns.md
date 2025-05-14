@@ -417,3 +417,17 @@
       ``` 
 </details>
 
+7. Circuit Breaker - MicroServices
+ - The Circuit Breaker pattern is a design pattern used to prevent cascading failures in distributed systems, especially microservices, by isolating faulty services. It acts like an electrical circuit breaker, tripping and isolating a service that's experiencing a high rate of failures, preventing further requests from overloading it and potentially impacting other parts of the system.
+ - State Transitions:
+     - A circuit breaker typically operates in three states:
+     - Closed: Requests pass through normally, and the system monitors for failures.
+     - Open: All requests to the service are blocked, preventing further failures and giving the service time to recover.
+     - Half-Open: After a timeout period, a small number of test requests are allowed to determine if the service has recovered. If the test requests are successful, the circuit breaker returns to the closed state. If they fail, it returns to the open state.
+ - Failure Detection:
+     - The circuit breaker monitors the number of failures or the failure rate within a specific time window. When the failure rate exceeds a predefined threshold, the circuit breaker trips and transitions to the open state. 
+ - Benefits:
+     - Prevents Cascading Failures: By isolating failing services, the circuit breaker prevents failures from spreading to other parts of the system.
+     - Improved System Resilience: The system can handle temporary failures without completely shutting down.
+     - Resource Optimization: Repeated failed requests are avoided, freeing up resources for other parts of the system. 
+8. 
