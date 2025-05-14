@@ -452,6 +452,6 @@
  - Basically this pattern separates read and update operations for a database.
  - ![](https://miro.medium.com/v2/resize:fit:720/format:webp/1*eCqGeLVWq0luxZ75vpBKzg.png)
 
-10. 
+10.  
 
 
