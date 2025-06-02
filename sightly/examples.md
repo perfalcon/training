@@ -153,6 +153,7 @@
   - data-sly-test
   - data-sly-use
   - data-sly-attribute
+  - data-sly-call
   - <sly>
 </details>
 
@@ -178,8 +179,37 @@
       - Boolean:
         - true: Displays the attribute without value (as a Boolean HTML attribute)
         - false: Removes the attribute altogether.
-  - sss
+  </details>
+
+  <details>    
+    <summary>Loading Client Libraries</summary>
   
-</details>
+  - In HTL, client libraries are loaded through a helper template provided by AEM, which can be accessed through **data-sly-use**.
+  - Three templates are available in this file, which can be called through **data-sly-call**:
+    - **css** - Loads only the CSS files of the referenced client libraries.
+    - **js** - Loads only the JavaScript files of the referenced client libraries.
+    - **all** - Loads all the files of the referenced client libraries (both CSS and JavaScript).
+   
+    - Loading multiple client libraries fully at once
+      ```
+      <sly data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html"
+       data-sly-call="${clientlib.all @ categories=['myCategory1', 'myCategory2']}"/>
+      ``` 
+    - Referencing a client library in different sections of a page
+      ```
+      <!doctype html>
+      <html data-sly-use.clientlib="/libs/granite/sightly/templates/clientlib.html">
+          <head>
+              <!-- HTML meta-data -->
+              <sly data-sly-call="${clientlib.css @ categories='myCategory'}"/>
+          </head>
+          <body>
+              <!-- page content -->
+              <sly data-sly-call="${clientlib.js @ categories='myCategory'}"/>
+          </body>
+      </html>
+      ```
+  
+  </details>
 
   
