@@ -154,6 +154,7 @@
   - data-sly-use
   - data-sly-attribute
   - data-sly-call
+  - data-sly-include
   - <sly>
 </details>
 
@@ -181,7 +182,9 @@
         - false: Removes the attribute altogether.
   </details>
 
-  <details>    
+  <details>
+    <summary>Common Patterns with HTL</summary>
+    <details>    
     <summary>Loading Client Libraries</summary>
   
   - In HTL, client libraries are loaded through a helper template provided by AEM, which can be accessed through **data-sly-use**.
@@ -211,5 +214,7 @@
       ```
   
   </details>
+  </details>
+  
 
   
