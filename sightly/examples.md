@@ -151,7 +151,35 @@
   - data-sly-list
   - data-sly-repeat
   - data-sly-test
+  - data-sly-use
+  - data-sly-attribute
   - <sly>
+</details>
+
+<details>
+  <summary>General Capabilities of HTL</summary>
+  
+  - Use-API for Accessing Logic
+      - HTL's Java Use-API enables an HTL file to access helper methods in a custom Java class through data-sly-use
+      - This process allows all complex business logic to be encapsulated in the Java code, while the HTL code deals only with direct markup production.
+  - Automatic Context-Aware Escaping
+    -  The HTL automatically escapes each variable accordingly to the context in which it is placed.
+    -  Otherwise it would be vulnerable to cross-site scripting (XSS).
+  - Automatic Removal of Empty Attributes
+    -  ```
+       <p class="${properties.class}">some text</p>       
+       ```
+        here If the value of the class property happens to be empty, the HTL automatically removes the entire class attribute from the output.
+    - Additionally, the type of the variable placed in the expression matters:
+      - String:
+        - not empty: Sets the string as an attribute value.
+        - empty: Removes the attribute altogether.
+      - Number: Sets the value as an attribute value.
+      - Boolean:
+        - true: Displays the attribute without value (as a Boolean HTML attribute)
+        - false: Removes the attribute altogether.
+  - sss
+  
 </details>
 
   
