@@ -7,8 +7,81 @@
 <details>
   <summary>Block and Expressions</summary>
   
-  - Block Statements: to display the h1 element conditionally, use a data-sly-test 
-  
+  - **Block Statements**: to display the h1 element conditionally, use a data-sly-test
+  - **Expression Language**: The ${ and } characters delimit HTL expressions. At runtime, these expressions are evaluated and their value is injected into the outgoing HTML stream.
+  ```
+    <h1 data-sly-test="${properties.jcr:title}">
+    ${properties.jcr:title}
+    </h1>
+  ```
+  - The SLY Element:
+  ```
+    <sly data-sly-test="${properties.jcr:title && properties.jcr:description}">
+    <h1>${properties.jcr:title}</h1>
+    <p>${properties.jcr:description}</p>
+    </sly>
+  ```
+  - HTL Comments: HTL comments are HTML comments with an additional JavaScript-like syntax. The processor entirely ignores the whole HTL comment and anything within, removing it from the output.
+  ```
+    <!--/* An HTL Comment */-->
+    <!-- An HTML Comment -->
+  ```
+  - Special Contexts:
+    - To protect against cross-site scripting (XSS) vulnerabilities, HTL automatically recognises the context within which an output string is to be displayed within the final HTML output, and escapes that string appropriately.
+    - It is also possible to override the automatic display context handling with the context option.
+      <details>
+        <summary> Context </summary>
+        
+         ```      
+            ${properties.jcr:title @ context='html'}          <!--/* Use this in case you want to output HTML - Removes markup that may contain XSS risks */-->
+            ${properties.jcr:title @ context='text'}          <!--/* Use this for simple HTML content - Encodes all HTML */-->
+            ${properties.jcr:title @ context='elementName'}   <!--/* Allows only element names that are white-listed, outputs 'div' otherwise */-->
+            ${properties.jcr:title @ context='attributeName'} <!--/* Outputs nothing if the value doesn't correspond to the HTML attribute name syntax - doesn't allow 'style' and 'on*' attributes */-->
+            ${properties.jcr:title @ context='attribute'}     <!--/* Applies HTML attribute escaping */-->
+            ${properties.jcr:title @ context='uri'}           <!--/* Outputs nothing if the value contains XSS risks */-->
+            ${properties.jcr:title @ context='scriptToken'}   <!--/* Outputs nothing if the value doesn't correspond to an Identifier, String literal or Numeric literal JavaScript token */-->
+            ${properties.jcr:title @ context='scriptString'}  <!--/* Applies JavaScript string escaping */-->
+            ${properties.jcr:title @ context='scriptComment'} <!--/* Context for Javascript block comments. Outputs nothing if value is trying to break out of the comment context */-->
+            ${properties.jcr:title @ context='scriptRegExp'}  <!--/* Applies JavaScript regular expression escaping */-->
+            ${properties.jcr:title @ context='styleToken'}    <!--/* Outputs nothing if the value doesn't correspond to the CSS token syntax */-->
+            ${properties.jcr:title @ context='styleString'}   <!--/* Applies CSS string escaping */-->
+            ${properties.jcr:title @ context='styleComment'}  <!--/* Context for CSS comments. Outputs nothing if value is trying to break out of the comment context */-->
+            ${properties.jcr:title @ context='comment'}       <!--/* Applies HTML comment escaping */-->
+            ${properties.jcr:title @ context='number'}        <!--/* Outputs zero if the value is not a number */-->
+            ${properties.jcr:title @ context='unsafe'}        <!--/* Use this at your own risk, this disables XSS protection completely */-->
+         ```
+       
+      </details>
+- Element and Attribute Names: Expressions can only be placed in HTML text or attribute values, but not within element names or attribute names, or it wouldn’t be valid HTML anymore.
+  - To set element names dynamically, the data-sly-element statement can be used on the desired elements
+  - to set attribute names dynamically, even setting multiple attributes at once, the data-sly-attribute statement can be used.
+ 
+  ```
+    <h1 data-sly-element="${myElementName}" data-sly-attribute="${myAttributeMap}">...</h1>
+
+  ```
+- Contexts Without Block Statements:
+  -  it is not possible to define such block statements inside of the following contexts, and only expressions can be used there:
+    - HTML comments
+    - Script elements
+    - Style elements
+  - The reason for it is that the content of these contexts is text and not HTML, and contained HTML elements would be considered as simple character data. So, without real HTML elements, there also cannot be data-sly attributes run.
+  - The following example illustrates the behavior for HTML comments, but in script or style elements, the same behavior would be observed:
+
+    ```
+      <!--
+    The title is: ${properties.jcr:title}
+    <h1 data-sly-test="${properties.jcr:title}">${properties.jcr:title}</h1>
+      -->
+     ```
+  - Outputs something like the following HTML:
+
+    ```
+      <!--
+        The title is: MY TITLE
+        <h1 data-sly-test="MY TITLE">MY TITLE</h1>
+    -->
+     ```
  
 </details>
 
@@ -65,6 +138,8 @@
   
   - data-sly-list
   - data-sly-repeat
+  - data-sly-test
+  - <sly>
 </details>
 
   
