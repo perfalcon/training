@@ -82,6 +82,18 @@
         <h1 data-sly-test="MY TITLE">MY TITLE</h1>
     -->
      ```
+- Explicit Contexts Required
+    -  one objective of HTL is to reduce the risks of introducing cross-site scripting (XSS) vulnerabilities by automatically applying context-aware escaping to all expressions
+    -  HTL detects the context of expressions in HTML markup but does not analyze inline JavaScript or CSS, so developers must specify the exact context for these expressions.
+    -  An example of how to set the context for expressions placed inside scripts and styles:
+
+       ```
+       <script> var trackingID = "${myTrackingID @ context='scriptString'}"; </script>
+       <style> a { font-family: "${myFont @ context='styleString'}"; } </style>
+       ```
+       
+  
+  
  
 </details>
 
