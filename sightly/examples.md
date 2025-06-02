@@ -214,6 +214,15 @@
       ```
   
   </details>
+  <details>
+    <summary>Passing Data to the Client</summary>  
+    - using data attribute , we can pass the data to the client   
+    ```
+        <!--/* template.html file: */-->
+      <div data-sly-use.logic="logic.js" data-json="${logic.json}">...</div>
+    ```
+
+  </details>
   </details>
   
 
