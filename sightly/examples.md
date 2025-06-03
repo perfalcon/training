@@ -334,9 +334,43 @@
     ``` 
 
 
-    - s
+    - #### Local vs. Bundle Java Class
+      - The Java use-class can be installed in two ways:
+      - **Local** - In a local install, the Java source file is placed alongside the HTL file, in the same repository folder.<br/> The source is automatically compiled on demand. No separate compilation or packaging step is required.
+      - **Bundle** - In a bundle install, the Java class must be compiled and deployed within an OSGi bundle using the standard AEM bundle deployment mechanism (see the section Bundled Java Class).
+      - To know which method to use when, keep these two points in mind:
+        - A local Java use-class is recommended when the use-class is specific to the component in question.
+        - A bundle Java use-class is recommended when the Java code implements a service that is accessed from multiple HTL components.
       
-  - 
+  - **Context**:
+    - The activate method is used to precompute and store (in member variables) the values needed in your HTL code, based on the current context (the current request and resource, for example).
+    - The WCMUsePojo class provides access to the same set of context objects as are available within an HTL file (see the document Global Objects.)
+    - In a class extending WCMUsePojo, you can access context objects using their names:
+        - *<T> T get(String name, Class<T> type)*
+    - Alternatively, you can access commonly used context objects directly using the appropriate convenience method listed in this table.
+       <details>
+        <summary>Table</summary>
+        
+        
+        | Object	|Convenience Method |
+        | ----------- | ----------- | 
+        |  PageManager|	getPageManager()| 
+        |   Page	| getCurrentPage()| 
+        |   Page	| getResourcePage()| 
+        |   ValueMap	| getPageProperties()| 
+        |    ValueMap	| getProperties()| 
+        |   Designer	| getDesigner()| 
+        |   Design	| getCurrentDesign()| 
+        |    Style	| getCurrentStyle()| 
+        |    Component| 	getComponent()| 
+        |    ValueMap	| getInheritedProperties()| 
+        |    Resource	| getResource()| 
+        |   ResourceResolver| 	getResourceResolver()| 
+        |    SlingHttpServletRequest	| getRequest()| 
+        |    SlingHttpServletResponse	| getResponse()| 
+        |    SlingScriptHelper	| getSlingScriptHelper()| 
+      </details>
+    - 
   - 
   
     
