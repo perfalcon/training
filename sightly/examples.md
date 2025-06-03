@@ -215,11 +215,40 @@
   
   </details>
   <details>
-    <summary>Passing Data to the Client</summary>  
-    - using data attribute , we can pass the data to the client   
-    ```
-        <!--/* template.html file: */-->
+    <summary>Passing Data to the Client</summary>
+  
+  - using data attribute , we can pass the data to the client.
+  - using the data in the client side
+    
+      ```
+      <!--/* template.html file: */-->
       <div data-sly-use.logic="logic.js" data-json="${logic.json}">...</div>
+
+      ==============
+      /* logic.js file: */
+      use(function () {
+          var myData = {
+              str: "foo",
+              arr: [1, 2, 3]
+          };
+      
+          return {
+              json: JSON.stringify(myData)
+          };
+      });
+
+      
+      ```
+ - using the data in the client side
+
+     ```
+   
+         var elements = document.querySelectorAll("[data-json]");
+        for (var i = 0; i < elements.length; i++) {
+            var obj = JSON.parse(elements[i].dataset.json);
+            //console.log(obj);
+        }
+
     ```
 
   </details>
