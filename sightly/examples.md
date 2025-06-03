@@ -252,7 +252,94 @@
     ```
 
   </details>
+  <details>
+    <summary>Working with Client-Side Templates</summary>
+    
+  - [example ](https://experienceleague.adobe.com/en/docs/experience-manager-htl/content/getting-started#working-with-client-side-templates)
   </details>
   
+  </details>
+
+  <details>
+    <summary>HTL Java Use-API</summary>
+     
+  - The HTL Java Use-API enables an HTL file to access helper methods in a custom Java class.
+  - Example
+    - A HTL Component - info
+    - HTL File : /apps/my-example/components/info.html
+
+    ```
+      <div>
+      <h1>${properties.title}</h1>
+      <p>${properties.description}</p>
+      </div>
+    
+    ```
+
+    - Content : /content/my-example/
+
+    ```
+      {
+          "sling:resourceType": "my-example/component/info",
+          "title": "My Example",
+          "description": "This Is Some Example Content."
+      }
+
+    ```
+    - Output File : /content/my-example.html
+
+    ```
+      <div>
+      <h1>My Example</h1>
+      <p>This Is Some Example Content.</p>
+      </div>
+
+    ```
+    - Apply use-class , then the htl file changes to
+
+    ```
+      <div data-sly-use.info="Info">
+          <h1>${info.lowerCaseTitle}</h1>
+          <p>${info.lowerCaseDescription}</p>
+      </div>
+    
+    ``` 
+    - Create a Java class ( locally ) in the same folder of the component
+      -  /apps/my-example/component/info/Info.java .
+
+    ```
+         package apps.my_example.components.info;
+        
+        import com.adobe.cq.sightly.WCMUsePojo;
+        
+        public class Info extends WCMUsePojo {
+            private String lowerCaseTitle;
+            private String lowerCaseDescription;
+        
+            @Override
+            public void activate() throws Exception {
+                lowerCaseTitle = getProperties().get("title", "").toLowerCase();
+                lowerCaseDescription = getProperties().get("description", "").toLowerCase();
+            }
+        
+            public String getLowerCaseTitle() {
+                return lowerCaseTitle;
+            }
+        
+            public String getLowerCaseDescription() {
+                return lowerCaseDescription;
+            }
+        }
+
+    ``` 
+
+
+    - s
+      
+  - 
+  - 
+  
+    
+  </details>
 
   
