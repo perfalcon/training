@@ -148,14 +148,22 @@
 <details> 
   <summary>HTL Tags:</summary>
   
-  - data-sly-list
-  - data-sly-repeat
-  - data-sly-test
-  - data-sly-use
   - data-sly-attribute
   - data-sly-call
+  - data-sly-element
   - data-sly-include
-  - <sly>
+  - data-sly-list
+  - data-sly-repeat
+  - data-sly-resource
+  - data-sly-test
+    - data-sly-test.joinString
+    - data-sly-test.formatString
+  - data-sly-set
+  - data-sly-use
+  - data-sly-unwrap
+  - sly
+
+  [Reference : Medium Article](https://medium.com/@techzette2/htl-sightly-cheat-sheet-68a1d6c8fad5)
 </details>
 
 <details>
