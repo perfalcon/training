@@ -180,9 +180,11 @@ Part 2:
      }
 
      function Page(){
+   <>
      <Header/>
      <MainComponent/>
      <Footer/>
+   </>
      }
    
    ```
