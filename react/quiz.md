@@ -41,3 +41,34 @@ put those things on the page.
 
 Ans: We have small pieces that we can put together to make something
 larger or greater than the individual pieces themselves.
+
+1. What is a React component?
+
+Ans: A function that returns React elements. (UI)
+
+2. What's wrong with this code?
+
+```
+function myComponent() {
+    return (
+        <small>I'm tiny text!</small>
+    )
+}
+
+```
+Ans: function name should be Pascal Case : MyComponent()
+
+3. What's wrong with this code?
+
+```
+function Header() {
+    return (
+        <header>
+            <img src="./react-logo.png" width="40px" alt="React logo" />
+        </header>
+    )
+}
+
+root.render(Header())
+```
+Ans: Calling the component should be <Header/> instead of Header()
