@@ -1,0 +1,306 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~>4.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~>3.0"
+    }
+	 azuread = {
+      source  = "hashicorp/azuread"
+      version = ">= 2.30.0"
+    }
+	time = {
+      source  = "hashicorp/time"
+      version = ">= 0.7.1"
+    }
+  }
+}
+
+provider "azurerm" {  
+  features {}
+  subscription_id = "<user subscripting id>"
+}
+
+
+
+
+#Variables
+variable "resource_group_location" {
+  type        = string
+  default     = "eastus"
+  description = "Location of the resource group."
+}
+
+variable "sequence"{
+type= string
+default="005"
+}
+
+
+
+locals{
+rg_name = "rg-xyz-backend-${var.sequence}"
+location="eastus"
+law_name="law-xyz-backend-${var.sequence}"
+sp_name="sp-demo-${var.sequence}"
+acr_name="acrsdemo${var.sequence}"
+acpEnv_name="acp-env-assetmanager-${var.sequence}"
+acp_name="acp-assetmanager-${var.sequence}"
+csdb_name="csdb-example-${var.sequence}"
+csdbDB_name="FailedRequestDB"
+csdbC_name="FailedRequest"
+sa_name="storagexyz${var.sequence}"
+}
+
+
+output "rg_name"{
+value=local.rg_name
+}
+
+
+
+#Create Resource Group
+
+locals{
+common_tags = {
+    soa_application_name     = "xyz-assetmamager"
+    soa_application_team = "soa_application_team"
+    soa_business_criticality   = "low"
+	soa_cost_center = "10.605301.0000.506.00.000.000"
+	soa_data_classification="internal"
+	soa_environment="dev"
+	soa_owner_email="bthati@subaru.com"
+  }
+  }
+
+# resource group 
+resource "azurerm_resource_group" "rg" {
+  location = local.location
+  name     = local.rg_name
+  tags = local.common_tags
+}
+
+#Create Log Analytics Workspace
+
+resource "azurerm_log_analytics_workspace" "law" {
+  name                = local.law_name
+  resource_group_name = local.rg_name
+  location            = local.location
+  sku                 = "PerGB2018" 
+}
+
+#Create Service Principal
+
+data "azuread_client_config" "current" {}
+
+data "azurerm_subscription" "primary" {}
+
+resource "azuread_application" "sp" {
+  display_name = local.sp_name
+   owners           = [data.azuread_client_config.current.object_id]
+}
+
+resource "azuread_service_principal" "sp" {
+  client_id = azuread_application.sp.client_id
+    owners            = [data.azuread_client_config.current.object_id]
+}
+
+resource "time_rotating" "month" {
+  rotation_days = 30
+}
+
+resource "azuread_service_principal_password" "sp" {
+  service_principal_id ="/servicePrincipals/${azuread_service_principal.sp.object_id}"
+  rotate_when_changed  = { rotation = time_rotating.month.id }
+}
+
+
+resource "azurerm_role_assignment" "sp" {
+  scope                = data.azurerm_subscription.primary.id
+  role_definition_name = "Contributor"
+  principal_id         = azuread_service_principal.sp.object_id
+}
+
+
+
+# Create ACR
+resource "azurerm_container_registry" "acr" {
+  name                = local.acr_name
+  resource_group_name = local.rg_name
+  location            =local.location
+  sku                 = "Standard"
+  admin_enabled       = false
+}
+
+
+# Role assign after ACR to Pull
+resource "azurerm_role_assignment" "acrPull" {
+  principal_id   = azuread_service_principal.sp.object_id
+  role_definition_name = "AcrPull"
+  scope          = azurerm_container_registry.acr.id
+  #"/subscriptions/625a7782-915e-4201-b5f9-64a29aa27eff/resourceGroups/rg-xyz-backend-001/providers/Microsoft.ContainerRegistry/registries/acrxyzbackendassetmgr"
+}
+
+# Role assign after ACR to Push
+resource "azurerm_role_assignment" "acrPush" {
+  principal_id   = azuread_service_principal.sp.object_id
+  role_definition_name = "AcrPush"
+  scope          = azurerm_container_registry.acr.id
+  #"/subscriptions/625a7782-915e-4201-b5f9-64a29aa27eff/resourceGroups/rg-xyz-backend-001/providers/Microsoft.ContainerRegistry/registries/acrxyzbackendassetmgr"
+}
+
+# Role assign after ACR to pull the image another resource group
+resource "azurerm_role_assignment" "acrPull_001" {
+  principal_id   = azuread_service_principal.sp.object_id
+  role_definition_name = "AcrPull"
+  scope          = "/subscriptions/625a7782-915e-4201-b5f9-64a29aa27eff/resourceGroups/rg-xyz-backend-001/providers/Microsoft.ContainerRegistry/registries/acrxyzbackendassetmgr"
+}
+
+
+resource "azurerm_container_app_environment" "acpEnv" {
+  name                       = local.acpEnv_name
+  location                   = local.location
+  resource_group_name        =  local.rg_name
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.law.id
+  #"/subscriptions/625a7782-915e-4201-b5f9-64a29aa27eff/resourceGroups/rg-xyz-backend-003/providers/Microsoft.OperationalInsights/workspaces/law-xyz-backend-003"
+}
+
+#Create Container App
+#resource "azurerm_container_app" "acp" {
+  #name                         = local.acp_name
+  #container_app_environment_id = azurerm_container_app_environment.acpEnv.id
+  ##"/subscriptions/625a7782-915e-4201-b5f9-64a29aa27eff/resourceGroups/rg-xyz-backend-001/providers/Microsoft.App/managedEnvironments/acp-env-assetmanager"
+ # resource_group_name          =  local.rg_name
+  #revision_mode                = "Single"
+ #template {
+   # container {
+   #   name   = "acp-assetmanager-100-container"
+    #  image  = "acrxyzbackendassetmgr.azurecr.io/assetmanager:latest"
+   #   cpu    = 0.25
+  #    memory = "0.5Gi"
+ #   }
+ # }
+#}
+
+
+### We cannot create the Container App without the Image, but google says different, and looks like the terraform doesn't allow without specifying the template / container block (azurerm_container_app)
+### So till Container App Env the script it completed.
+### interestingly, the container app is created , but the deployment of the image failed.
+### after the executing of this script created the following as expected
+### 1. rg-xyz-backend-004, 
+### 2. law-xyz-backend-004
+### 3. acrsdemo004
+### 4. sp-demo-004 ( this will be visible in ACR --> Access Control (IAM)--> Role Assignments)
+### 5. acp-env-assetmanager-004
+### 6. acp-assetmanager-004
+
+### as the deployment failed to container app -- I am commenting the container app creation code, why because it can created from the github action when it is ci/cd????, not sure 
+### as of now -- created and destroyed successfully except for deploying the image to container app
+
+
+
+#Create CosmosDB Account	
+resource "azurerm_cosmosdb_account" "csdb" {
+  name                = local.csdb_name # DB names are universal with in the subscription I guess, should be unique irrespective of the resource group
+  resource_group_name =local.rg_name
+  location            = local.location
+  offer_type            = "Standard"
+  kind                  = "GlobalDocumentDB"
+  access_key_metadata_writes_enabled =false
+   geo_location {
+    location          = "eastus"
+    failover_priority = 0
+  }
+  consistency_policy {
+    consistency_level       = "Session"
+    max_interval_in_seconds = 5
+    max_staleness_prefix    = 100
+  }
+
+
+
+}
+
+#Create DB
+resource "azurerm_cosmosdb_sql_database" "csdbDB" {
+  name                =local.csdbDB_name
+  resource_group_name = local.rg_name
+  account_name        = azurerm_cosmosdb_account.csdb.name
+  throughput          = 1000
+}
+
+#Create Container
+resource "azurerm_cosmosdb_sql_container" "csdbC" {
+  name                = local.csdbC_name
+  resource_group_name = local.rg_name
+  account_name        = azurerm_cosmosdb_account.csdb.name
+  database_name       = azurerm_cosmosdb_sql_database.csdbDB.name
+  partition_key_paths = ["/notify_key_value"]
+}
+
+
+
+#Create Storage Account
+
+
+resource "azurerm_storage_account" "sa" {
+  name                     =  local.sa_name
+  resource_group_name = local.rg_name
+  location            = local.location
+  account_tier             = "Standard"
+  account_replication_type = "GRS" 
+}
+
+## Queues for UGC
+resource "azurerm_storage_queue" "sq_ugc_s" {
+  name                 = "q-ugc-store"
+  storage_account_name = azurerm_storage_account.sa.name
+}
+
+data "azurerm_storage_queue" "sq_ugc_s" {
+  name                 = azurerm_storage_queue.sq_ugc_s.name
+  storage_account_name = azurerm_storage_account.sa.name
+}
+output "queue_id" {
+value="azurerm_storage_queue.sq_ugc_s.id"
+description="Storage queue id"
+}
+
+#resource "azurerm_role_assignment" "sq_ugc_s_role" {
+ # scope              = azurerm_storage_queue.sq_ugc_s.id
+ #role_definition_id = "974c5e8b-45b9-4653-ba55-5f855dd0fb88" # Storage Queue Data Contributor
+ #principal_id       = azuread_service_principal.sp.object_id 
+#}
+resource "azurerm_storage_queue" "sq_ugc_r" {
+  name                 = "q-ugc-retrieve"
+  storage_account_name = azurerm_storage_account.sa.name
+}
+resource "azurerm_storage_queue" "sq_ugc_n" {
+  name                 = "q-ugc-notify"
+  storage_account_name = azurerm_storage_account.sa.name
+}
+resource "azurerm_storage_queue" "sq_ugc_d" {
+  name                 = "q-ugc-delete"
+  storage_account_name = azurerm_storage_account.sa.name
+}
+
+## Queues for Retailer images
+resource "azurerm_storage_queue" "sq_ri_s" {
+  name                 = "q-ri-store"
+  storage_account_name = azurerm_storage_account.sa.name
+}
+resource "azurerm_storage_queue" "sq_ri_r" {
+  name                 = "q-ri-retrieve"
+  storage_account_name = azurerm_storage_account.sa.name
+}
+resource "azurerm_storage_queue" "sq_ri_n" {
+  name                 = "q-ri-notify"
+  storage_account_name = azurerm_storage_account.sa.name
+}
+resource "azurerm_storage_queue" "sq_ri_d" {
+  name                 = "q-ri-delete"
+  storage_account_name = azurerm_storage_account.sa.name
+}
