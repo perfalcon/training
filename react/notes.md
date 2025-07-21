@@ -14,6 +14,7 @@
   - [Geeks](https://www.geeksforgeeks.org/react/)
   - [Scimba](https://scrimba.com/learn-react-c0e/~04xn)
   - [React DEV](https://react.dev/learn)
+  - [HandsOnReact](https://handsonreact.com/)
     
   </details>
   <details>
