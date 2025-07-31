@@ -45,6 +45,48 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Car color="red"/>);
 
 ```
+
+- you can send a variable as
+```
+function Car(props) {
+  return <h2>I am a { props.brand }!</h2>;
+}
+
+function Garage() {
+  const carName = "Ford";
+  return (
+    <>
+      <h1>Who lives in my garage?</h1>
+      <Car brand={ carName } />
+    </>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Garage />);
+
+```
+- you can send an object as
+```
+function Car(props) {
+  return <h2>I am a { props.brand.model }!</h2>;
+}
+
+function Garage() {
+  const carInfo = { name: "Ford", model: "Mustang" };
+  return (
+    <>
+      <h1>Who lives in my garage?</h1>
+      <Car brand={ carInfo  } />
+    </>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Garage />);
+
+```
+
 ### Components in Components
 - We can refer to components inside other components
  ```
@@ -86,5 +128,63 @@ import Car from './Car.js';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Car />);
 
-```   
-  
+```
+
+### Events
+-  React can perform actions based on user events like click, change, mouseover etc.
+-  React events are written in camelCase syntax as onClick
+-  React event handlers are written inside curly braces: onClick={shoot}
+-  <button onClick={shoot}>Take the Shot!</button>
+```
+function Football() {
+  const shoot = () => {
+    alert("Great Shot!");
+  }
+
+  return (
+    <button onClick={shoot}>Take the shot!</button>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Football />);
+
+```
+### Passing Arguments
+- To pass an argument to an event handler, use an arrow function.
+```
+function Football() {
+  const shoot = (a) => {
+    alert(a);
+  }
+
+  return (
+    <button onClick={() => shoot("Goal!")}>Take the shot!</button>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Football />);
+
+```
+### React Event Object
+- Event handlers have access to the React event that triggered the function.
+```
+function Football() {
+  const shoot = (a, b) => {
+    alert(b.type);
+    /*
+    'b' represents the React event that triggered the function,
+    in this case the 'click' event
+    */
+  }
+
+  return (
+    <button onClick={(event) => shoot("Goal!", event)}>Take the shot!</button>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<Football />);
+
+```
