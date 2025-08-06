@@ -300,3 +300,87 @@ function Garage() {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<Garage />);
 ```
+
+### React Forms
+- Adding Forms in React
+```
+function MyForm() {
+  return (
+    <form>
+      <label>Enter your name:
+        <input type="text" />
+      </label>
+    </form>
+  )
+}
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<MyForm />);
+
+```
+- Handling Forms
+ -  Handling forms is about how you handle the data when it changes value or gets submitted.
+ -  In HTML, form data is usually handled by the DOM.
+ -  In React, form data is usually handled by the components.
+ -  When the data is handled by the components, all the data is stored in the component state.
+ -  You can control changes by adding event handlers in the onChange attribute.
+ -  We can use the useState Hook to keep track of each inputs value and provide a "single source of truth" for the entire application.
+ -  Use the useState Hook to manage the input:
+ ```
+import { useState } from 'react';
+import ReactDOM from 'react-dom/client';
+
+function MyForm() {
+  const [name, setName] = useState("");
+
+  return (
+    <form>
+      <label>Enter your name:
+        <input
+          type="text" 
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </label>
+    </form>
+  )
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<MyForm />);
+```  
+- Submitting Forms
+ - You can control the submit action by adding an event handler in the onSubmit attribute for the <form>:
+
+ ```
+import { useState } from 'react';
+root.render(<MyForm />);
+```
+```
+import { useState } from 'react';
+import ReactDOM from 'react-dom/client';
+
+function MyForm() {
+  const [name, setName] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    alert(`The name you entered was: ${name}`)
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>Enter your name:
+        <input 
+          type="text" 
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </label>
+      <input type="submit" />
+    </form>
+  )
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<MyForm />);
+``` 
