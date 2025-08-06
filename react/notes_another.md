@@ -383,4 +383,9 @@ function MyForm() {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<MyForm />);
-``` 
+```
+- Multiple Input Fields
+-  You can control the values of more than one input field by adding a name attribute to each element.
+-  We will initialize our state with an empty object.
+-  To access the fields in the event handler use the event.target.name and event.target.value syntax.
+-  To update the state, use square brackets [bracket notation] around the property name.
