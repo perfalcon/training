@@ -601,3 +601,82 @@ const Todos = ({ todos }) => {
 
 export default memo(Todos);
 ```
+### Styling React Using CSS
+- Inline styling
+   - To style an element with the inline style attribute, the value must be a JavaScript object:
+     ```
+     <h1 style={{color: "red"}}>Hello Style!</h1>
+     ```
+   - Since the inline CSS is written in a JavaScript object, properties with hyphen separators, like background-color, must be written with camel case syntax:
+     ```
+     <h1 style={{backgroundColor: "lightblue"}}>Hello Style!</h1>
+     ```
+   - You can also create an object with styling information, and refer to it in the style attribute:
+     ```
+      const Header = () => {
+        const myStyle = {
+          color: "white",
+          backgroundColor: "DodgerBlue",
+          padding: "10px",
+          fontFamily: "Sans-Serif"
+        };
+        return (
+          <>
+            <h1 style={myStyle}>Hello Style!</h1>
+            <p>Add a little style!</p>
+          </>
+        );
+      }
+     ```
+- CSS stylesheets
+  - You can write your CSS styling in a separate file, just save the file with the .css file extension, and import it in your application.
+- CSS Modules
+  - Create the CSS module with the .module.css extension, example: my-style.module.css.
+  ```
+     my-style.module.css
+    .bigblue {
+      color: DodgerBlue;
+      padding: 40px;
+      font-family: Sans-Serif;
+      text-align: center;
+    }
+
+    ====
+    car.js
+    import styles from './my-style.module.css'; 
+    
+    const Car = () => {
+      return <h1 className={styles.bigblue}>Hello Car!</h1>;
+    }
+    
+    export default Car;
+  
+  ```
+### Styling React Using Sass
+- Sass is a CSS pre-processor.
+- Sass files are executed on the server and sends CSS to the browser.
+- Create a Sass file the same way as you create CSS files, but Sass files have the file extension .scss
+ ```
+  $myColor: red;
+  
+  h1 {
+    color: $myColor;
+  }
+
+
+  import React from 'react';
+  import ReactDOM from 'react-dom/client';
+  import './my-sass.scss';
+  
+  const Header = () => {
+    return (
+      <>
+        <h1>Hello Style!</h1>
+        <p>Add a little style!.</p>
+      </>
+    );
+  }
+  
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(<Header />);
+ ```
