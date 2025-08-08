@@ -680,3 +680,106 @@ export default memo(Todos);
   const root = ReactDOM.createRoot(document.getElementById('root'));
   root.render(<Header />);
  ```
+
+### React Hooks
+- Hooks allow function components to have access to state and other React features. Because of this, class components are generally no longer needed.
+- Hooks allow us to "hook" into React features such as state and lifecycle methods.
+- You must import Hooks from react.
+- Here we are using the useState Hook to keep track of the application state.
+- State generally refers to application data or properties that need to be tracked.
+- There are 3 rules for hooks:
+  - Hooks can only be called inside React function components.
+  - Hooks can only be called at the top level of a component.
+  - Hooks cannot be conditional
+
+### useState Hook 
+- The React useState Hook allows us to track state in a function component.
+- State generally refers to data or properties that need to be tracking in an application.
+- Import useState
+  - import { useState } from "react";  
+- Initialize useState
+  -  useState accepts an initial state and returns two values:
+     -  The current state.
+     -  A function that updates the state.
+     ```
+       import { useState } from "react";
+       
+       function FavoriteColor() {
+         const [color, setColor] = useState("");
+       }
+     ```
+     - The first value, color, is our current state.
+     - The second value, setColor, is the function that is used to update our state.
+     - we set the initial state to an empty string: useState("")
+- Read State
+  -  Use the state variable in the rendered component.
+  -  ```
+      return <h1>My favorite color is {color}!</h1>
+     ```
+- Update State
+  - To update our state, we use our state updater function.
+  - We should never directly update state. Ex: color = "red" is not allowed.
+    ```
+       <button
+         type="button"
+         onClick={() => setColor("blue")}
+       >Blue</button>
+    ``` 
+- What Can State Hold
+   - The useState Hook can be used to keep track of strings, numbers, booleans, arrays, objects, and any combination of these!
+   - We could create multiple state Hooks to track individual values.
+    ```
+     const [brand, setBrand] = useState("Ford");
+     const [model, setModel] = useState("Mustang");
+     const [year, setYear] = useState("1964");
+     const [color, setColor] = useState("red");
+    ```
+    - we can just use one state and include an object instead!
+     ```
+       const [car, setCar] = useState({
+         brand: "Ford",
+         model: "Mustang",
+         year: "1964",
+         color: "red"
+       });
+     ```
+- Updating Objects and Arrays in State
+   - When state is updated, the entire state gets overwritten.
+   - What if we only want to update the color of our car?
+   - If we only called setCar({color: "blue"}), this would remove the brand, model, and year from our state.
+   - We can use the JavaScript spread operator to help us.
+     ```
+      import { useState } from "react";
+      import ReactDOM from "react-dom/client";
+      
+      function Car() {
+        const [car, setCar] = useState({
+          brand: "Ford",
+          model: "Mustang",
+          year: "1964",
+          color: "red"
+        });
+      
+        const updateColor = () => {
+          setCar(previousState => {
+            return { ...previousState, color: "blue" }
+          });
+        }
+      
+        return (
+          <>
+            <h1>My {car.brand}</h1>
+            <p>
+              It is a {car.color} {car.model} from {car.year}.
+            </p>
+            <button
+              type="button"
+              onClick={updateColor}
+            >Blue</button>
+          </>
+        )
+      }
+      
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<Car />);
+     ```
