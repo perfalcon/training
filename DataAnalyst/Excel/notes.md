@@ -35,5 +35,13 @@ Sum, Avg, SumIf, If
   - A correlation coefficient can rance from -1 to 1
     - -1 ( Perfect -ve correlation) <0 ( no correlation) < 1( perfrect +ve correlation).
 
- 
+ ### Power Query
+ - Power query simplifies data cleaning and transformation compared to using Excel formulas
+ - Power query uses M-Language internally for all the steps performed using the UI controls
+ - It is advisable to give meaningful names to the transformation steps in power query
+ - In Power Query, you can perform various types of joins between tables based on the specific requirements
+ - Unique values are values that appear only once in the data
+ - Distinc values are values that appear at least once in the data
+ - A Conditional Column allows you to add a col to your table based on a specific or set of conditions
+ - A Custom col allows you to add a new column to your table using a formula that you define. This formula can reference other columns in your table and perform calculations or manipulations on their values
    
