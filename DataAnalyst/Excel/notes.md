@@ -44,4 +44,21 @@ Sum, Avg, SumIf, If
  - Distinc values are values that appear at least once in the data
  - A Conditional Column allows you to add a col to your table based on a specific or set of conditions
  - A Custom col allows you to add a new column to your table using a formula that you define. This formula can reference other columns in your table and perform calculations or manipulations on their values
-   
+
+### Pivot Table 
+- As a Data Analyst, it may be difficult to survive without Pivot Tables
+- You can insert a Pivot table either in the same worksheet or in a new worksheet
+- Pivot tables make it easy to summarize data
+- Pivot tables allow you to slice and dice data in any format you want
+- To create a pivot table, follow these steps
+   -   Insert > Pivot Table > Select the Table/Range > Create Pivot Table
+- You can use the recommended pivot table for several use cases.
+- Make sure to explore all other options available in the pivot table
+- Pivot Tables allow you to sort data based on different values
+- You can make pivot tables more presentable by using formatting and other options
+- Pivot tables are very similar to the matrix visualizations that you will use in BI tools.
+- Power Pivot is a data modelling tool for Excel. It allows to create relationships between tables and perform advanced calculations with large amount of data
+- To create measures, we can use the DAX(Data Analysis Expression) language.
+- Primary key: It is a column or combination of columns that uniquely identifies each row in a table
+- Foreign key: It is a column or combination of columns that refers to the primary of another table and estabilshes a link between the two tables.
+- Use the SUMX([table],[expression]) function to add up the values in a table based on a specified expression.
