@@ -62,3 +62,4 @@ Sum, Avg, SumIf, If
 - Primary key: It is a column or combination of columns that uniquely identifies each row in a table
 - Foreign key: It is a column or combination of columns that refers to the primary of another table and estabilshes a link between the two tables.
 - Use the SUMX([table],[expression]) function to add up the values in a table based on a specified expression.
+- To highlight interesting data points, use conditional formatting.
