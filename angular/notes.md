@@ -1,0 +1,72 @@
+### Angular
+- Tools and Features
+  - Uses variable in HTML: data binding
+  - Work with DI - to extract certain logics - ( as calling APIs)
+  - Easily setup routing - connecting to a certain page
+  - Handle forms
+- Benefits:
+  - Stucture
+  - Scalability
+- Setup env
+  - Download and install visual studio code
+    - code.visualstudio.com
+    - Add extensions
+  - Install Nodejs
+  - Install npm
+    -  node package manager
+  - Install the angular cli
+      - For easily creating and managing Angular projects
+      - cmd : npm install -g @angular/cli
+  - check
+      - Node.js: node -v
+      - npm : npm -v
+      - Angular : ng version
+- Angular CLI
+  -  Angular command line interface
+  -  Tool for Scaffolding and managing angular projects
+  -  Saves time by generating boilerplate code
+  -  Enforces Angular best practices
+  -  Automactically updates configuration files and creates new folders
+  -  Helps avoid mistakes
+  -  Helps work faster
+  -  Maintains a consitent structure
+  -  Aligns with best practices
+  -  Common cmds:
+      -  Creating new projects: ng new
+      -  Serving the app: ng serve
+      -  Generating files: ng generate component/service/pipe etc.
+      -  Building for production: ng build
+-  Structure of Angular Apps
+   -  package.json
+   -  Heart of projects' dependencies
+   -  List all packages the app needs
+     -  Angular
+     -  TypeScript
+     -  Various libs
+    -  angular.json
+      - config for Angular CLI
+    - tsconsfig.json
+      - TypeScript configuration file
+      - Sets rules for TypeScript compilation
+      - Supports code consitency
+      - Catches errors early
+    - .gitignore
+      - specifiles the files/folders not saved in teh github
+    - main.ts
+      - Entry point app, it bootsrap the angular app
+    - index.htm
+      - main html, angular injects, this determines what we'll see on the page. 
+    - styles.css
+      - This file contain global styles for our app affecting look and feel across all components
+    - public
+      - folder for aesthetic assets, like images and other files that don't require procession by angular
+    - Asset components
+      - which are in /src/app
+      - the applications, components services and other core functionality resides.
+      - app.component
+        - contains : html, css, ts
+        - first component of the application that loads
+        - this component is injected in to the index.html
+        - app.route.ts
+          - defines main navigation within our app.
+          - defines how users move between views and components
