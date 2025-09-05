@@ -1,0 +1,45 @@
+## MicroServices
+### Best Practices
+- Design and Development
+  - Single Responsibility Principle (SRP)
+  - Domain-Driven Design
+  - Decentralized Data Management
+  - Loose Coupling, High Cohesion
+  - Asynchronous Communication
+  - API Design
+  - Design for Failure
+- Deployment and Operations
+  - Containerization & Orchestration
+  - Independent Deployment
+  - Centralized Logging and Monitoring
+  - Automated CI/CD
+  - Service Discovery
+  - API Gateway
+- Security
+  - Secure API Gateways
+  - Secure Inter-service communication
+  - Authentication & Authorization
+  - Secrets Management
+  - Container Security
+### Patterns
+- Service Collaboration 
+  - Saga
+  - Command-side replica
+  - API Composition
+  - CQRS
+  - Circuit Breaker
+  - Access Token
+- Testing Patterns
+  - Service Component Test
+  - Service Integration Contract Test
+- Observability Pattern
+  - Log aggregation
+  - Application metrics
+  - Audit logging
+  - Distributed tracing
+  - Exception tracking
+  - Health check API
+  - Log deployments and changes
+- UI Pattern
+  - Server-side page fragment composition
+  - Client-side UI composition
